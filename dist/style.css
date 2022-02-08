@@ -1,0 +1,333 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap");
+/* phone usage */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Lato", sans-serif;
+  color: #2e2e2e;
+}
+:root {
+  --task-color-1: #fe5147;
+  --task-color-2: #fe9e41;
+  --task-color-3: #f8c509;
+  --task-color-4: #43a0ff;
+  --add-color: #25c06e;
+  --border-colors: #a1afa4d0;
+}
+
+body {
+  font-size: 2em;
+  position: relative;
+  overflow: hidden;
+}
+.add {
+  position: fixed;
+  bottom: 0vh;
+  right: 0;
+  width: fit-content;
+  height: fit-content;
+}
+.project-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.849);
+}
+.project-modal > div {
+  background-color: white;
+  padding: 1em;
+}
+.project-modal input {
+  font-size: 1.5rem;
+}
+.project-modal > div :last-child {
+  font-size: 01.5rem;
+  cursor: pointer;
+  border: 2px solid var(--border-colors);
+  width: fit-content;
+  margin: 0 auto;
+  margin-top: 5px;
+  padding: 05px;
+  transition: 0.5s;
+}
+.project-modal > div :last-child:hover {
+  background-color: rgba(0, 0, 0, 0.853);
+  color: white;
+}
+.options {
+  font-size: 1.5rem;
+  background-color: #eee;
+  display: none;
+  position: absolute;
+  right: 2vw;
+  bottom: 20vh;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.options div {
+  margin-bottom: 10px;
+  padding: 0px 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.options div:hover {
+  background-color: #ccc;
+}
+.options div:first-of-type {
+  margin-top: 10px;
+}
+.new-project {
+  padding: 1rem;
+  column-gap: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  width: 30%;
+  cursor: pointer;
+  color: white;
+  background-color: black;
+  margin-top: 50px;
+}
+
+.add-new {
+  position: absolute;
+  bottom: 5vh;
+  right: 5vw;
+  cursor: pointer;
+  background-color: var(--add-color);
+  color: white;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  text-align: center;
+  line-height: 70%;
+  font-size: 3em;
+}
+.categories-list {
+  max-width: 100%;
+  display: flex;
+  overflow-x: scroll;
+}
+.categories-list div {
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 1rem;
+  margin-right: 0.3rem;
+  cursor: pointer;
+  color: white;
+  border-radius: 10px;
+  transition: 0.3s;
+  min-width: fit-content;
+  max-width: max-content;
+}
+.categories-list div:hover {
+  transform: scale(1.15);
+}
+h2 {
+  display: inline-block;
+  padding-bottom: 0.2rem;
+  margin-bottom: 0.5rem;
+  margin-left: 0.4rem;
+  border-bottom: 1px solid var(--border-colors);
+}
+.red {
+  background-color: var(--task-color-1);
+}
+.orange {
+  background-color: var(--task-color-2);
+}
+.yellow {
+  background-color: var(--task-color-3);
+}
+.blue {
+  background-color: var(--task-color-4);
+}
+.project {
+  padding-left: 0.5rem;
+  color: white;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: start;
+  align-items: center;
+  padding: 1rem;
+  column-gap: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.done-marker {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: white;
+}
+.logo,
+.user-profile img {
+  width: 50px;
+  margin-top: 10px;
+  transition: 0.3s;
+  text-align: center;
+}
+.user-profile img {
+  border-radius: 50%;
+}
+.logo:hover {
+  transform: scale(1.2);
+}
+.user-profile:hover img {
+  box-shadow: 0 0 10px 1px var(--task-color-1);
+}
+.add-section {
+  background-color: #ccc;
+}
+#modal-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(219, 150, 46, 0.5);
+}
+#newSection-modal {
+  width: 400px;
+  height: 250px;
+  padding: 100px;
+  background-color: rgb(202, 86, 39);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#newSectionName {
+  text-indent: 10px;
+  width: 300px;
+  font-size: 1.5em;
+  outline: none;
+  border: none;
+}
+label,
+#addSectionBtn {
+  margin-bottom: 20px;
+  width: max-content;
+  font-size: 0.75em;
+  overflow-wrap: break-word;
+}
+#addSectionBtn {
+  border: 2px solid black;
+  padding: 0.25rem;
+  margin-top: 20px;
+  cursor: pointer;
+  background-color: var(--task-color-2);
+}
+
+#newSectionName:focus {
+  outline: none;
+}
+header {
+  background-color: white;
+  z-index: 5;
+}
+@media screen and (min-width: 426px) {
+  body {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 5% 95%;
+    column-gap: 10px;
+  }
+  header {
+    padding: 0.5rem;
+    min-width: 70px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border-right: 1px solid black;
+  }
+
+  .project {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  body {
+    height: 100vh;
+    width: 100vw;
+  }
+  header {
+    width: 100%;
+    padding: 0.7rem;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-colors);
+  }
+  .categories-list {
+    display: flex;
+    width: 100vw;
+    overflow: scroll;
+    padding-left: 0.5rem;
+  }
+  .categories-list div {
+    border: 1px solid var(--border-colors);
+    padding: 0.5rem;
+    margin: 0.1rem;
+    cursor: pointer;
+    border-radius: 10px;
+    color: white;
+  }
+  .categories-list div:hover {
+    margin: 0 20px;
+  }
+  .categories-list > div:nth-child(1),
+  .categories-list > div:nth-child(5),
+  .current-project-tasks > .task:nth-child(1) {
+    background-color: var(--task-color-1);
+  }
+  .categories-list > div:nth-child(2),
+  .current-project-tasks > .task:nth-child(2) {
+    background-color: var(--task-color-2);
+  }
+  .categories-list > div:nth-child(3),
+  .current-project-tasks > .task:nth-child(3) {
+    background-color: var(--task-color-3);
+  }
+  .categories-list > div:nth-child(4),
+  .current-project-tasks > .task:nth-child(4) {
+    background-color: var(--task-color-4);
+  }
+  .current-project-tasks {
+    padding-left: 0.5rem;
+  }
+  .project {
+    border-radius: 10px;
+    width: 90vw;
+    margin-bottom: 5px;
+    padding: 1rem;
+    color: white;
+  }
+  .add {
+    bottom: 0%;
+    right: 0vw;
+  }
+  .options {
+    bottom: 15vh;
+  }
+}
