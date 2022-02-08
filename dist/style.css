@@ -113,6 +113,7 @@ body {
 }
 .categories-list {
   max-width: 100%;
+  max-height: 100px;
   display: flex;
   overflow-x: scroll;
 }
@@ -264,6 +265,12 @@ header {
 
   .project {
     width: 60%;
+  }
+  #task-window {
+    height: calc(100vh - 100px);
+    background-color: #fe5149;
+    border-radius: 20px;
+    margin-left: -5px;
   }
 }
 

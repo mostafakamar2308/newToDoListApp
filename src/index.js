@@ -33,7 +33,7 @@ function createMainContent() {
   let main = document.createElement("main");
   document.body.append(main);
   createSection(main);
-  document.querySelector("#Programming").click();
+  document.querySelector(".categories-list").firstChild.click();
   createAddSection(main);
 }
 createMainContent();
@@ -138,8 +138,16 @@ function createProject(ele, projectSection) {
   let project = document.createElement("div");
   project.classList.add("project");
   project.textContent = ele;
-
   chooseColor(project);
+  project.addEventListener("click", function l() {
+    animateProjectList();
+    setTimeout(() => {
+      document
+        .querySelector("main")
+        .removeChild(document.querySelector("#project-section"));
+    }, 1000);
+    createTasksWindow();
+  });
   projectSection.append(project);
 }
 
@@ -293,7 +301,7 @@ function closeModal(ele) {
   ele.style.display = "none";
 }
 function animateProjects() {
-  let i = 1;
+  let i = 2;
   document.querySelectorAll(".project").forEach((ele) => {
     if (i % 2 == 0) {
       ele.classList.add("left");
@@ -303,6 +311,40 @@ function animateProjects() {
       i++;
     }
   });
-  gsap.from(".left", { duration: 0.5, x: -400 });
-  gsap.from(".right", { duration: 0.5, x: 400 });
+  gsap.from(".left", {
+    duration: 0.5,
+    opacity: 0,
+    x: -400,
+    stagger: 1,
+    ease: "ease",
+  });
+  gsap.from(".right", {
+    duration: 0.5,
+    delay: 0.5,
+    x: 400,
+    opacity: 0,
+    ease: "ease",
+    stagger: 1,
+  });
+}
+
+function animateProjectList() {
+  let list = document.querySelector("#project-section");
+  gsap.to(list, {
+    duration: 1,
+    transformOrigin: "50% 50%",
+    rotateX: "360",
+    opacity: "0",
+    display: "none",
+  });
+}
+
+function createTasksWindow() {
+  let taskWindow = document.createElement("section");
+  taskWindow.id = "task-window";
+  document.querySelector("main").append(taskWindow);
+  animateTaskWindow(taskWindow);
+}
+function animateTaskWindow(t) {
+  gsap.from(t, { duration: 1, delay: 1, scale: 0, opacity: 0 });
 }
