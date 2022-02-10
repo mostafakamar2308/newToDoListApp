@@ -1,11 +1,51 @@
 let sectionObj = {
-  Programming: { "Productive Hero": {}, "Social Media Limiting app": {} },
-  "Medical School": { CVS: {}, CNS: {} },
-  Home: { "clean Bedroom": {}, cook: {} },
-  Personal: { Diary: {}, Family: {}, Training: {}, Friends: {} },
+  Programming: {
+    "Productive Hero": [
+      "Make The app",
+      "Publish the app",
+      "Make Money",
+      "Marry ?",
+    ],
+    "Social Media Limiting app": [
+      "Make The app",
+      "Publish the app",
+      "Make Money",
+      "Marry ?",
+    ],
+  },
+  "Medical School": {
+    CVS: ["Anatomy", "physiology", "Pharmacology"],
+    CNS: ["Anatomy", "physiology", "Pathology"],
+  },
+  Home: {
+    "clean Bedroom": ["Make the bed", "Clean your desk", "Organize Your books"],
+    cook: ["get Ingredients", "make Fire"],
+  },
+  Personal: {
+    Diary: ["10/2", "11/2"],
+    Family: ["Talk to Sister", "Get mother from Grandmother"],
+    Training: ["Leg Day", "10KM Run"],
+    Friends: ["Talk to Khattab"],
+  },
 };
 let colorIndex = 0;
 
+document.addEventListener("click", function (event) {
+  if (!event.target.closest(".add") && document.querySelector(".options")) {
+    closeModal(document.querySelector(".options"));
+  }
+  if (event.target.id === "modal-container") {
+    closeModal(document.querySelector("#modal-container"));
+  }
+  if (event.target.id === "taskWindowContainer") {
+    removeModal(document.querySelector("#taskWindowContainer"));
+    createSection(document.querySelector("main"));
+    document.querySelector(`#${openedSection}`).click();
+    document.querySelector(".add").style.display = "block";
+  }
+});
+let openedSection = "";
+let openedProject = "";
 (function createHeader() {
   //creating the header for the site
   let header = document.createElement("header");
@@ -54,8 +94,9 @@ function createSection(ele) {
 }
 function createSectionsDivs(ele, item) {
   let newProj = document.createElement("div");
-  newProj.setAttribute("id", `${item}`);
   newProj.textContent = `${item}`;
+  let newId = item.split(" ").join("-");
+  newProj.setAttribute("id", `${newId}`);
   chooseColor(newProj);
   ele.append(newProj);
   newProj.addEventListener("click", createProjectList, newProj.path);
@@ -112,6 +153,7 @@ function scrollOrNo(ele) {
   }
 }
 function createProjectList(eleClicked) {
+  openedSection = eleClicked.path[0].id;
   if (document.querySelector("#project-section")) {
     document
       .querySelector("#project-section")
@@ -135,6 +177,7 @@ function createProjectsInProjectList(eleClicked, projectSection) {
   addNewProjectDiv(projectSection);
 }
 function createProject(ele, projectSection) {
+  openedProject = ele;
   let project = document.createElement("div");
   project.classList.add("project");
   project.textContent = ele;
@@ -145,7 +188,12 @@ function createProject(ele, projectSection) {
       document
         .querySelector("main")
         .removeChild(document.querySelector("#project-section"));
+      document
+        .querySelector("main")
+        .removeChild(document.querySelector(".categories-list"));
+      closeModal(document.querySelector(".add"));
     }, 1000);
+
     createTasksWindow();
   });
   projectSection.append(project);
@@ -289,14 +337,9 @@ function createProjectModal() {
 createProjectModal();
 
 //make the add section disappear if the user clicked outside
-document.addEventListener("click", function (event) {
-  if (!event.target.closest(".add") && document.querySelector(".options")) {
-    closeModal(document.querySelector(".options"));
-  }
-  if (event.target.id === "modal-container") {
-    closeModal(document.querySelector("#modal-container"));
-  }
-});
+function removeModal(ele) {
+  ele.parentNode.removeChild(ele);
+}
 function closeModal(ele) {
   ele.style.display = "none";
 }
@@ -340,10 +383,26 @@ function animateProjectList() {
 }
 
 function createTasksWindow() {
+  let taskWindowContainer = document.createElement("section");
+  taskWindowContainer.id = "taskWindowContainer";
   let taskWindow = document.createElement("section");
   taskWindow.id = "task-window";
-  document.querySelector("main").append(taskWindow);
+  taskWindowContainer.append(taskWindow);
+  document.querySelector("main").append(taskWindowContainer);
   animateTaskWindow(taskWindow);
+  createTasks();
+}
+function createTasks() {
+  console.log(sectionObj[openedSection][openedProject]);
+  sectionObj[openedSection][openedProject].forEach((ele) => {
+    createTask(ele);
+  });
+}
+function createTask(ele) {
+  let task = document.createElement("div");
+  task.id = ele.split(" ").join("-");
+  task.textContent = ele;
+  document.querySelector("#task-window").append(task);
 }
 function animateTaskWindow(t) {
   gsap.from(t, { duration: 1, delay: 1, scale: 0, opacity: 0 });

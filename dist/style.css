@@ -22,6 +22,7 @@ body {
   overflow: hidden;
 }
 .add {
+  z-index: 9999;
   position: fixed;
   bottom: 0vh;
   right: 0;
@@ -46,6 +47,9 @@ body {
 }
 .project-modal input {
   font-size: 1.5rem;
+}
+main {
+  position: relative;
 }
 .project-modal > div :last-child {
   font-size: 01.5rem;
@@ -187,6 +191,7 @@ h2 {
 .user-profile:hover img {
   box-shadow: 0 0 10px 1px var(--task-color-1);
 }
+
 .add-section {
   background-color: #ccc;
 }
@@ -241,6 +246,16 @@ header {
   background-color: white;
   z-index: 5;
 }
+#taskWindowContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 @media screen and (min-width: 426px) {
   body {
     width: 100vw;
@@ -268,6 +283,7 @@ header {
   }
   #task-window {
     height: calc(100vh - 100px);
+    width: 95%;
     background-color: #fe5149;
     border-radius: 20px;
     margin-left: -5px;
