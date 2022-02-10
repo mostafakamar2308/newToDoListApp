@@ -11,6 +11,14 @@ let sectionObj = {
       "Publish the app",
       "Make Money",
       "Marry ?",
+      "Make The app",
+      "Publish the app",
+      "Make Money",
+      "Marry ?",
+      "Make The app",
+      "Publish the app",
+      "Make Money",
+      "Marry ?",
     ],
   },
   "Medical School": {
@@ -27,6 +35,9 @@ let sectionObj = {
     Training: ["Leg Day", "10KM Run"],
     Friends: ["Talk to Khattab"],
   },
+  hhhh: {},
+  LMFAO: {},
+  HHHHhhh: {},
 };
 let colorIndex = 0;
 
@@ -89,8 +100,8 @@ function createSection(ele) {
   });
   addsectionDiv(catSection);
 
-  scrollOrNo(catSection);
-  window.addEventListener("resize", scrollOrNo(catSection));
+  scrollOrNo(catSection, "x");
+  window.addEventListener("resize", scrollOrNo, catSection, "x");
 }
 function createSectionsDivs(ele, item) {
   let newProj = document.createElement("div");
@@ -135,21 +146,31 @@ function chooseColor(newProj) {
   }
 }
 //the function which determines if anyscrolling happens or no
-function scrollOrNo(ele) {
-  let arr = [];
-  for (let i = 0; i < ele.children.length; i++) {
-    arr.push(ele.children[i].offsetWidth);
-  }
-  let eleWidth = arr.reduce((acc, now) => {
-    return acc + now;
-  }, 0);
+function scrollOrNo(el, dimension) {
+  var curOverflow = el.style.overflow;
 
-  let mainWidth = document.querySelector("main").offsetWidth;
+  if (dimension == "x") {
+    if (!curOverflow || curOverflow === "visible") el.style.overflow = "hidden";
 
-  if (mainWidth - eleWidth > 0) {
-    ele.style.overflowX = "hidden";
-  } else {
-    ele.style.overflowX = "scroll";
+    let isOverflowing = el.clientWidth < el.scrollWidth;
+
+    el.style.overflow = "hidden";
+    if (isOverflowing == true) {
+      el.style.overflowX = "scroll";
+    } else {
+      el.style.overflowX = "hidden";
+    }
+  } else if (dimension == "y") {
+    if (!curOverflow || curOverflow === "visible") el.style.overflow = "hidden";
+
+    let isOverflowing = el.clientHeight < el.scrollHeight;
+
+    el.style.overflow = "hidden";
+    if (isOverflowing == true) {
+      el.style.overflowY = "scroll";
+    } else {
+      el.style.overflowY = "hidden";
+    }
   }
 }
 function createProjectList(eleClicked) {
@@ -167,6 +188,7 @@ function createProjectList(eleClicked) {
   projectTitle.textContent = `${eleClicked.path[0].textContent}`;
   projectSection.append(projectTitle);
   createProjectsInProjectList(eleClicked, projectSection);
+  scrollOrNo(projectSection, "y");
 }
 
 function createProjectsInProjectList(eleClicked, projectSection) {
@@ -177,15 +199,13 @@ function createProjectsInProjectList(eleClicked, projectSection) {
   addNewProjectDiv(projectSection);
 }
 function createProject(ele, projectSection) {
-  openedProject = ele;
   let project = document.createElement("div");
   project.classList.add("project");
   project.textContent = ele;
   chooseColor(project);
   project.addEventListener("click", function l() {
-    console.log(openedProject);
+    openedProject = ele;
     let taskColor = getComputedStyle(project).backgroundColor;
-    console.log(taskColor);
     animateProjectList();
     setTimeout(() => {
       document
@@ -280,7 +300,7 @@ function addSection() {
   console.log(sectionObj);
   newSection.value = "";
   closeModal(document.querySelector("#modal-container"));
-  scrollOrNo(document.querySelector(".categories-list"));
+  scrollOrNo(document.querySelector(".categories-list", "x"));
 }
 
 function addSectionToMainObj(obj, ele) {
@@ -395,19 +415,28 @@ function createTasksWindow(color) {
   taskWindow.style.backgroundColor = color;
   animateTaskWindow(taskWindow);
   createTasks();
+  scrollOrNo(taskWindow, "y");
 }
 function createTasks() {
-  sectionObj[openedSection.split("-").join(" ")][openedProject].forEach(
-    (ele) => {
-      createTask(ele);
-    }
-  );
+  sectionObj[openedSection.split("-").join(" ")][
+    openedProject.split("-").join(" ")
+  ].forEach((ele) => {
+    createTask(ele);
+  });
+  createAddTaskBtn();
 }
 function createTask(ele) {
   let task = document.createElement("div");
   task.id = ele.split(" ").join("-");
   task.textContent = ele;
   document.querySelector("#task-window").append(task);
+}
+
+function createAddTaskBtn() {
+  let btn = document.createElement("button");
+  btn.id = "add-task";
+  btn.textContent = "Add New Task";
+  document.querySelector("#task-window").append(btn);
 }
 function animateTaskWindow(t) {
   gsap.from(t, { duration: 1, delay: 1, scale: 0, opacity: 0 });
