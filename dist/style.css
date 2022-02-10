@@ -283,10 +283,24 @@ header {
   }
   #task-window {
     height: calc(100vh - 100px);
+    padding: 20px;
     width: 95%;
-    background-color: #fe5149;
+    /* background-color: #fe5149; */
     border-radius: 20px;
     margin-left: -5px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1em;
+    position: relative;
+  }
+  #task-window div {
+    color: white;
+    border: rgba(255, 255, 255, 0.438) 1px solid;
+    padding: 1rem;
+  }
+  #task-window div:hover {
+    box-shadow: rgba(255, 255, 255, 0.438) 0 0 10px 0,
+      rgba(255, 255, 255, 0.438) 0 0 10px 0 inset;
   }
 }
 

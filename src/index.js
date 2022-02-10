@@ -183,6 +183,9 @@ function createProject(ele, projectSection) {
   project.textContent = ele;
   chooseColor(project);
   project.addEventListener("click", function l() {
+    console.log(openedProject);
+    let taskColor = getComputedStyle(project).backgroundColor;
+    console.log(taskColor);
     animateProjectList();
     setTimeout(() => {
       document
@@ -194,7 +197,7 @@ function createProject(ele, projectSection) {
       closeModal(document.querySelector(".add"));
     }, 1000);
 
-    createTasksWindow();
+    createTasksWindow(taskColor);
   });
   projectSection.append(project);
 }
@@ -382,21 +385,23 @@ function animateProjectList() {
   });
 }
 
-function createTasksWindow() {
+function createTasksWindow(color) {
   let taskWindowContainer = document.createElement("section");
   taskWindowContainer.id = "taskWindowContainer";
   let taskWindow = document.createElement("section");
   taskWindow.id = "task-window";
   taskWindowContainer.append(taskWindow);
   document.querySelector("main").append(taskWindowContainer);
+  taskWindow.style.backgroundColor = color;
   animateTaskWindow(taskWindow);
   createTasks();
 }
 function createTasks() {
-  console.log(sectionObj[openedSection][openedProject]);
-  sectionObj[openedSection][openedProject].forEach((ele) => {
-    createTask(ele);
-  });
+  sectionObj[openedSection.split("-").join(" ")][openedProject].forEach(
+    (ele) => {
+      createTask(ele);
+    }
+  );
 }
 function createTask(ele) {
   let task = document.createElement("div");
