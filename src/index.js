@@ -54,6 +54,9 @@ document.addEventListener("click", function (event) {
     document.querySelector(`#${openedSection}`).click();
     document.querySelector(".add").style.display = "block";
   }
+  if (event.target.id === "new-task-container") {
+    removeModal(document.querySelector("#new-task-container"));
+  }
 });
 let openedSection = "";
 let openedProject = "";
@@ -446,7 +449,6 @@ function animateTaskWindow(t) {
 }
 
 function createNewTaskModal() {
-  console.log("clicked");
   let container = document.createElement("section");
   container.id = "new-task-container";
   let modal = document.createElement("section");
