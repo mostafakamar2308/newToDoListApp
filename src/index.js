@@ -1,4 +1,4 @@
-let sectionObj = {
+var sectionObj = {
   Programming: {
     "Productive Hero": [
       "Make The app",
@@ -202,6 +202,7 @@ function createProject(ele, projectSection) {
   let project = document.createElement("div");
   project.classList.add("project");
   project.textContent = ele;
+  project.id = ele.split(" ").join("-");
   chooseColor(project);
   project.addEventListener("click", function l() {
     openedProject = ele;
@@ -297,7 +298,6 @@ function addSection() {
     [newSection.value.charAt(0).toUpperCase() + newSection.value.slice(1)]: {},
   };
   addSectionToMainObj(sectionObj, newObj);
-  console.log(sectionObj);
   newSection.value = "";
   closeModal(document.querySelector("#modal-container"));
   scrollOrNo(document.querySelector(".categories-list", "x"));
@@ -347,7 +347,7 @@ function createProjectModal() {
       .querySelector("#project-section")
       .removeChild(document.querySelector("#project-section").lastChild);
     createProject(inpt.value, document.querySelector("#project-section"));
-    sectionObj[document.querySelector("h2").textContent][inpt.value] = {};
+    sectionObj[document.querySelector("h2").textContent][inpt.value] = [];
     addNewProjectDiv(document.querySelector("#project-section"));
     closeModal(document.querySelector(".project-modal"));
   });
@@ -415,6 +415,7 @@ function createTasksWindow(color) {
   taskWindow.style.backgroundColor = color;
   animateTaskWindow(taskWindow);
   createTasks();
+  createAddTaskBtn();
   scrollOrNo(taskWindow, "y");
 }
 function createTasks() {
@@ -423,7 +424,6 @@ function createTasks() {
   ].forEach((ele) => {
     createTask(ele);
   });
-  createAddTaskBtn();
 }
 function createTask(ele) {
   let task = document.createElement("div");
@@ -436,8 +436,41 @@ function createAddTaskBtn() {
   let btn = document.createElement("button");
   btn.id = "add-task";
   btn.textContent = "Add New Task";
+  btn.addEventListener("click", function () {
+    createNewTaskModal();
+  });
   document.querySelector("#task-window").append(btn);
 }
 function animateTaskWindow(t) {
   gsap.from(t, { duration: 1, delay: 1, scale: 0, opacity: 0 });
+}
+
+function createNewTaskModal() {
+  console.log("clicked");
+  let container = document.createElement("section");
+  container.id = "new-task-container";
+  let modal = document.createElement("section");
+  modal.id = "new-task-window";
+  let span = document.createElement("span");
+  span.textContent = "What will you do today?";
+  let input = document.createElement("input");
+  input.id = "nameOfTask";
+  let btn = document.createElement("div");
+  btn.id = "add-task-final";
+  btn.textContent = "Add New Task";
+  btn.addEventListener("click", function () {
+    createTask(input.value);
+    sectionObj[openedSection.split("-").join(" ")][
+      openedProject.split("-").join(" ")
+    ].push(input.value);
+    removeModal(document.querySelector("#new-task-container"));
+    removeModal(document.querySelector("#add-task"));
+    createAddTaskBtn();
+    scrollOrNo(document.querySelector("#task-window"), "y");
+  });
+  modal.append(span);
+  modal.append(input);
+  modal.append(btn);
+  container.append(modal);
+  document.body.append(container);
 }
