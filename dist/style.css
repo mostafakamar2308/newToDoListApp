@@ -218,7 +218,7 @@ h2 {
   background-color: #71c562;
   color: white;
   cursor: pointer;
-  transition: 0.5s;
+  transition: 0.25s;
 }
 #add-task:hover {
   box-shadow: white 0 0 10px 0, white 0 0 5px 0 inset;
@@ -264,7 +264,7 @@ h2 {
   outline: none;
   border: none;
 }
-label,
+
 #addSectionBtn {
   margin-bottom: 20px;
   width: max-content;
@@ -349,6 +349,38 @@ header {
     color: white;
     border: rgba(255, 255, 255, 0.438) 1px solid;
     padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    column-gap: 20px;
+  }
+  #task-window label {
+    color: white;
+    width: fit-content;
+  }
+  #task-window label.marked {
+    position: relative;
+  }
+  label.marked::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 05px;
+    width: 100%;
+    background-color: white;
+  }
+  #task-window span.marked {
+    background-color: #71c562;
+    text-align: center;
+    color: white;
+    font-size: 2rem;
+  }
+  #task-window div > span {
+    width: 40px;
+    height: 40px;
+    background-color: white;
   }
   #task-window div:hover {
     box-shadow: rgba(255, 255, 255, 0.438) 0 0 10px 0,

@@ -1,43 +1,36 @@
 var sectionObj = {
   Programming: {
-    "Productive Hero": [
-      "Make The app",
-      "Publish the app",
-      "Make Money",
-      "Marry ?",
-    ],
-    "Social Media Limiting app": [
-      "Make The app",
-      "Publish the app",
-      "Make Money",
-      "Marry ?",
-      "Make The app",
-      "Publish the app",
-      "Make Money",
-      "Marry ?",
-      "Make The app",
-      "Publish the app",
-      "Make Money",
-      "Marry ?",
-    ],
+    "Productive Hero": {
+      "Make The app": {},
+      "Publish the app": {},
+      "Make Money": {},
+      "Marry ?": {},
+    },
+    "Social Media Limiting app": {
+      "Make The app": {},
+      "Publish the app": {},
+      "Make Money": {},
+      "Marry ?": {},
+    },
   },
   "Medical School": {
-    CVS: ["Anatomy", "physiology", "Pharmacology"],
-    CNS: ["Anatomy", "physiology", "Pathology"],
+    CVS: { Anatomy: {}, physiology: {}, Pharmacology: {} },
+    CNS: { Anatomy: {}, physiology: {}, Pathology: {} },
   },
   Home: {
-    "clean Bedroom": ["Make the bed", "Clean your desk", "Organize Your books"],
-    cook: ["get Ingredients", "make Fire"],
+    "clean Bedroom": {
+      "Make the bed": {},
+      "Clean your desk": {},
+      "Organize Your books": {},
+    },
+    cook: { "get Ingredients": {}, "make Fire": {} },
   },
   Personal: {
-    Diary: ["10/2", "11/2"],
-    Family: ["Talk to Sister", "Get mother from Grandmother"],
-    Training: ["Leg Day", "10KM Run"],
-    Friends: ["Talk to Khattab"],
+    Diary: { "10/2": {}, "11/2": {} },
+    Family: { "Talk to Sister": {}, "Get mother from Grandmother": {} },
+    Training: { "Leg Day": {}, "10KM Run": {} },
+    Friends: { "Talk to Khattab": {} },
   },
-  hhhh: {},
-  LMFAO: {},
-  HHHHhhh: {},
 };
 let colorIndex = 0;
 
@@ -422,17 +415,35 @@ function createTasksWindow(color) {
   scrollOrNo(taskWindow, "y");
 }
 function createTasks() {
-  sectionObj[openedSection.split("-").join(" ")][
-    openedProject.split("-").join(" ")
-  ].forEach((ele) => {
+  Object.keys(
+    sectionObj[openedSection.split("-").join(" ")][
+      openedProject.split("-").join(" ")
+    ]
+  ).forEach((ele) => {
     createTask(ele);
   });
 }
 function createTask(ele) {
   let task = document.createElement("div");
   task.id = ele.split(" ").join("-");
-  task.textContent = ele;
+  task.addEventListener("click", function () {
+    markTask(task);
+    markTaskInObject(ele);
+  });
+  let taskText = document.createElement("label");
+  taskText.innerText = ele;
+  let mark = document.createElement("span");
+  task.append(mark);
+  task.append(taskText);
   document.querySelector("#task-window").append(task);
+  let taskSyntax =
+    sectionObj[openedSection.split("-").join(" ")][
+      openedProject.split("-").join(" ")
+    ][ele];
+  if (!taskSyntax.hasOwnProperty("done") || taskSyntax["done"] == false) {
+  } else {
+    markTask(task);
+  }
 }
 
 function createAddTaskBtn() {
@@ -464,7 +475,7 @@ function createNewTaskModal() {
     createTask(input.value);
     sectionObj[openedSection.split("-").join(" ")][
       openedProject.split("-").join(" ")
-    ].push(input.value);
+    ][input.value] = { done: false };
     removeModal(document.querySelector("#new-task-container"));
     removeModal(document.querySelector("#add-task"));
     createAddTaskBtn();
@@ -475,4 +486,25 @@ function createNewTaskModal() {
   modal.append(btn);
   container.append(modal);
   document.body.append(container);
+}
+function markTask(ele) {
+  ele.children[1].classList.toggle("marked");
+  if (ele.children[0].textContent.length > 0) {
+    ele.children[0].textContent = "";
+  } else {
+    ele.children[0].innerHTML = "&#10003;";
+  }
+  ele.children[0].classList.toggle("marked");
+}
+
+function markTaskInObject(ele) {
+  let task =
+    sectionObj[openedSection.split("-").join(" ")][
+      openedProject.split("-").join(" ")
+    ][ele];
+  if (!task.hasOwnProperty("done") || task.done != true) {
+    task["done"] = true;
+  } else {
+    task["done"] = false;
+  }
 }
