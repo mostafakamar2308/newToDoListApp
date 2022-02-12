@@ -428,17 +428,20 @@ function createTasks() {
 }
 function createTask(ele) {
   let task = document.createElement("div");
+  task.classList.add("task");
   task.id = ele.split(" ").join("-");
-  task.addEventListener("click", function () {
-    markTask(task);
-    markTaskInObject(ele);
+  task.addEventListener("click", function (event) {
+    if (event.target.closest(".task") && !event.target.closest("#counter")) {
+      markTask(task);
+      markTaskInObject(ele);
+    }
   });
   let taskText = document.createElement("label");
   taskText.innerText = ele;
   let mark = document.createElement("span");
   let counter = document.createElement("div");
   counter.id = "counter";
-  createCounterArea(counter);
+  createCounterArea(counter, task.id);
 
   task.append(taskText);
   task.append(mark);
@@ -448,12 +451,11 @@ function createTask(ele) {
     sectionObj[openedSection.split("-").join(" ")][
       openedProject.split("-").join(" ")
     ][ele];
-  if (!taskSyntax.hasOwnProperty("done") || taskSyntax["done"] == false) {
-  } else {
+  if (taskSyntax["done"] == true) {
     markTask(task);
   }
 }
-function createCounterArea(ele) {
+function createCounterArea(ele, taskName) {
   let label = document.createElement("label");
   label.setAttribute("for", "pomodoroNum");
   label.textContent = "Pomodoro Setions:";
@@ -464,14 +466,24 @@ function createCounterArea(ele) {
   input.type = "number";
   input.name = "pomodoroNum";
   ele.append(input);
-  createCounter(ele);
+  createCounter(ele, taskName, input);
 }
-function createCounter(ele) {
+function createCounter(ele, taskName, inp) {
   let counter = document.createElement("div");
+  counter.id = `${taskName}-counter`;
   counter.innerHTML = "&#9658;";
+  counter.addEventListener("click", function hh() {
+    // animateCounter(counter.id);
+    let m = moment.duration(inp.value * 25, "m").get("minutes");
+    let now = moment("", "h:mm");
+    let getMinutes = moment().minute(inp.value * 25);
+    counter.textContent = `${now}`;
+  });
   ele.append(counter);
 }
-
+function animateCounter(c) {
+  gsap.to(`#${c}`, { duration: 1, rotate: 360, scale: 1 });
+}
 function createAddTaskBtn() {
   let btn = document.createElement("button");
   btn.id = "add-task";
@@ -533,4 +545,42 @@ function markTaskInObject(ele) {
   } else {
     task["done"] = false;
   }
+}
+
+function timer(num) {
+  let min = num;
+  let hours, minutes, s;
+  hours = Math.floor(min / 60);
+  minutes = min - hours * 60;
+  s = 0;
+  let counter = countDown(s, minutes, hours);
+}
+timer(1);
+
+function countDown(s, m, h) {
+  let ss = s,
+    mm = m,
+    hh = h;
+
+  var myInterval = setInterval(function () {
+    if (Number(ss) == 0) {
+      ss = 59;
+      if (Number(mm) == 0) {
+        mm = 59;
+        Number(hh--);
+      } else {
+        mm--;
+      }
+    } else {
+      ss--;
+    }
+    let myCounter = `${hh.toString().padStart(2, "0")}:${mm
+      .toString()
+      .padStart(2, "0")}:${ss.toString().padStart(2, "0")}`;
+    console.log(myCounter);
+    if (myCounter === "00:00:00") {
+      clearInterval(myInterval);
+      console.log("Finally");
+    }
+  }, 1000);
 }
