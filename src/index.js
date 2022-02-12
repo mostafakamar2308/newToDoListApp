@@ -410,6 +410,9 @@ function createTasksWindow(color) {
   document.querySelector("main").append(taskWindowContainer);
   taskWindow.style.backgroundColor = color;
   animateTaskWindow(taskWindow);
+  let tasksContainer = document.createElement("section");
+  tasksContainer.id = "tasks-container";
+  taskWindow.append(tasksContainer);
   createTasks();
   createAddTaskBtn();
   scrollOrNo(taskWindow, "y");
@@ -433,9 +436,14 @@ function createTask(ele) {
   let taskText = document.createElement("label");
   taskText.innerText = ele;
   let mark = document.createElement("span");
-  task.append(mark);
+  let counter = document.createElement("div");
+  counter.id = "counter";
+  createCounterArea(counter);
+
   task.append(taskText);
-  document.querySelector("#task-window").append(task);
+  task.append(mark);
+  task.append(counter);
+  document.querySelector("#tasks-container").append(task);
   let taskSyntax =
     sectionObj[openedSection.split("-").join(" ")][
       openedProject.split("-").join(" ")
@@ -444,6 +452,24 @@ function createTask(ele) {
   } else {
     markTask(task);
   }
+}
+function createCounterArea(ele) {
+  let label = document.createElement("label");
+  label.setAttribute("for", "pomodoroNum");
+  label.textContent = "Pomodoro Setions:";
+  ele.append(label);
+
+  let input = document.createElement("input");
+  input.defaultValue = 1;
+  input.type = "number";
+  input.name = "pomodoroNum";
+  ele.append(input);
+  createCounter(ele);
+}
+function createCounter(ele) {
+  let counter = document.createElement("div");
+  counter.innerHTML = "&#9658;";
+  ele.append(counter);
 }
 
 function createAddTaskBtn() {
@@ -488,13 +514,13 @@ function createNewTaskModal() {
   document.body.append(container);
 }
 function markTask(ele) {
-  ele.children[1].classList.toggle("marked");
-  if (ele.children[0].textContent.length > 0) {
-    ele.children[0].textContent = "";
-  } else {
-    ele.children[0].innerHTML = "&#10003;";
-  }
   ele.children[0].classList.toggle("marked");
+  if (ele.children[1].textContent.length > 0) {
+    ele.children[1].textContent = "";
+  } else {
+    ele.children[1].innerHTML = "&#10003;";
+  }
+  ele.children[1].classList.toggle("marked");
 }
 
 function markTaskInObject(ele) {

@@ -307,6 +307,38 @@ header {
 #add-task-final:hover {
   box-shadow: 0 0 10px 0 red, 0 0 3px 0 red inset;
 }
+#counter {
+  justify-self: center;
+  padding: 0 0.5rem;
+  padding-left: 2rem;
+  min-width: 100%;
+  display: grid;
+  grid-template-columns: auto 50px;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "lbl counter"
+    "num counter";
+
+  justify-content: space-between;
+}
+#counter label {
+  grid-area: lbl;
+  font-size: 1.5rem;
+}
+#counter input {
+  grid-area: num;
+}
+#counter > div {
+  grid-area: counter;
+  font-size: 2rem;
+  justify-self: end;
+  border-radius: 50%;
+  border: black 1px solid;
+  text-align: center;
+  padding: 1rem;
+  line-height: 0100%;
+  color: black;
+}
 
 @media screen and (min-width: 426px) {
   body {
@@ -337,7 +369,6 @@ header {
     height: calc(100vh - 100px);
     padding: 20px;
     width: 95%;
-    /* background-color: #fe5149; */
     border-radius: 20px;
     margin-left: -5px;
     display: flex;
@@ -345,18 +376,29 @@ header {
     row-gap: 1em;
     position: relative;
   }
-  #task-window div {
-    color: white;
+  #tasks-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    row-gap: 20px;
+    flex-wrap: wrap;
+  }
+  #tasks-container > div {
+    background-color: #eee;
+    border-radius: 20px;
+    width: 400px;
+    color: black;
     border: rgba(255, 255, 255, 0.438) 1px solid;
     padding: 1rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    align-items: center;
-    column-gap: 20px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr 1fr;
+    justify-content: stretch;
+    box-shadow: gray 05px 5px 5px 0;
   }
+
   #task-window label {
-    color: white;
+    color: black;
     width: fit-content;
   }
   #task-window label.marked {
@@ -365,24 +407,26 @@ header {
   label.marked::before {
     content: "";
     position: absolute;
-    top: 50%;
+    top: 25%;
     left: 0;
     height: 05px;
     width: 100%;
-    background-color: white;
+    background-color: black;
   }
   #task-window span.marked {
     background-color: #71c562;
-    text-align: center;
     color: white;
     font-size: 2rem;
   }
   #task-window div > span {
     width: 40px;
+    text-align: center;
+    line-height: 100%;
     height: 40px;
     background-color: white;
+    border: 3px solid black;
   }
-  #task-window div:hover {
+  #tasks-container > div:hover {
     box-shadow: rgba(255, 255, 255, 0.438) 0 0 10px 0,
       rgba(255, 255, 255, 0.438) 0 0 10px 0 inset;
   }
