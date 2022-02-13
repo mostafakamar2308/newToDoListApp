@@ -431,7 +431,7 @@ function createTask(ele) {
   task.classList.add("task");
   task.id = ele.split(" ").join("-");
   task.addEventListener("click", function (event) {
-    if (event.target.closest(".task") && !event.target.closest("#counter")) {
+    if (event.target.tagName !== "BUTTON") {
       markTask(task);
       markTaskInObject(ele);
     }
@@ -439,46 +439,64 @@ function createTask(ele) {
   let taskText = document.createElement("label");
   taskText.innerText = ele;
   let mark = document.createElement("span");
-  let counter = document.createElement("div");
-  counter.id = "counter";
-  createCounterArea(counter, task.id);
 
-  task.append(taskText);
+  let btn = document.createElement("button");
+  btn.textContent = "Work on the task";
+  btn.addEventListener("click", function () {
+    createTimerModal(task);
+  });
+
   task.append(mark);
-  task.append(counter);
+  task.append(taskText);
+  task.append(btn);
   document.querySelector("#tasks-container").append(task);
   let taskSyntax =
     sectionObj[openedSection.split("-").join(" ")][
       openedProject.split("-").join(" ")
     ][ele];
-  if (taskSyntax["done"] == true) {
+  if (!taskSyntax.hasOwnProperty("done") || taskSyntax["done"] == false) {
+  } else {
     markTask(task);
   }
 }
-function createCounterArea(ele, taskName) {
-  let label = document.createElement("label");
-  label.setAttribute("for", "pomodoroNum");
-  label.textContent = "Pomodoro Setions:";
-  ele.append(label);
-
-  let input = document.createElement("input");
-  input.defaultValue = 1;
-  input.type = "number";
-  input.name = "pomodoroNum";
-  ele.append(input);
-  createCounter(ele, taskName, input);
-}
-function createCounter(ele, taskName, inp) {
-  let counter = document.createElement("div");
-  counter.id = `${taskName}-counter`;
-  counter.innerHTML = "&#9658;";
-  counter.addEventListener("click", function hh() {
-    animateCounter(counter.id);
+function createTimerModal(task) {
+  let timerContainer = document.createElement("section");
+  timerContainer.classList.add("container");
+  timerContainer.addEventListener("click", function (event) {
+    if (event.target.tagName === "SECTION") {
+      workk = 0;
+      removeModal(timerContainer);
+    }
   });
-  ele.append(counter);
-}
-function animateCounter(c) {
-  gsap.to(`#${c}`, { duration: 1, rotate: 360, scale: 1 });
+
+  let timer = document.createElement("div");
+  timer.id = "timer";
+
+  let label = document.createElement("label");
+  label.setAttribute("for", "pomodoro-setions");
+  label.textContent = "Number Of Pomodoro Setions";
+
+  let inpt = document.createElement("input");
+  inpt.type = "number";
+  inpt.id = "pomodoro-number";
+  inpt.name = "pomodoro-number";
+  inpt.defaultValue = 1;
+
+  let startBtn = document.createElement("button");
+  startBtn.id = "pomodoro-start";
+  startBtn.innerHTML = "&#9658;";
+  startBtn.addEventListener("click", function () {
+    if (workk == 1) {
+      return;
+    } else {
+      timerF(inpt.value, startBtn, task);
+    }
+  });
+  timer.append(label);
+  timer.append(startBtn);
+  timer.append(inpt);
+  timerContainer.append(timer);
+  document.body.append(timerContainer);
 }
 function createAddTaskBtn() {
   let btn = document.createElement("button");
@@ -522,13 +540,13 @@ function createNewTaskModal() {
   document.body.append(container);
 }
 function markTask(ele) {
-  ele.children[0].classList.toggle("marked");
-  if (ele.children[1].textContent.length > 0) {
-    ele.children[1].textContent = "";
-  } else {
-    ele.children[1].innerHTML = "&#10003;";
-  }
   ele.children[1].classList.toggle("marked");
+  if (ele.children[0].textContent.length > 0) {
+    ele.children[0].textContent = "";
+  } else {
+    ele.children[0].innerHTML = "&#10003;";
+  }
+  ele.children[0].classList.toggle("marked");
 }
 
 function markTaskInObject(ele) {
@@ -542,3 +560,44 @@ function markTaskInObject(ele) {
     task["done"] = false;
   }
 }
+function timerF(num, ele, task) {
+  workk = 1;
+  let min = num;
+  let hours, minutes, s;
+  hours = Math.floor(min / 60);
+  minutes = min - hours * 60;
+  s = 0;
+  ele.textContent = `${hours.toString().padStart(2, "0")}:${minutes
+    .toString()
+    .padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+  countDownF(s, minutes, hours, ele);
+}
+
+function countDownF(s, m, h, ele, task) {
+  let ss = s,
+    mm = m,
+    hh = h;
+
+  var myInterval = setInterval(function () {
+    if (Number(ss) == 0) {
+      ss = 59;
+      if (Number(mm) == 0) {
+        mm = 59;
+        Number(hh--);
+      } else {
+        mm--;
+      }
+    } else {
+      ss--;
+    }
+    let myCounter = `${hh.toString().padStart(2, "0")}:${mm
+      .toString()
+      .padStart(2, "0")}:${ss.toString().padStart(2, "0")}`;
+    ele.textContent = myCounter;
+    if (myCounter === "00:00:00") {
+      clearInterval(myInterval);
+      ele.textContent = "Nice Work";
+    }
+  }, 1000);
+}
+let workk = 0;
