@@ -473,11 +473,7 @@ function createCounter(ele, taskName, inp) {
   counter.id = `${taskName}-counter`;
   counter.innerHTML = "&#9658;";
   counter.addEventListener("click", function hh() {
-    // animateCounter(counter.id);
-    let m = moment.duration(inp.value * 25, "m").get("minutes");
-    let now = moment("", "h:mm");
-    let getMinutes = moment().minute(inp.value * 25);
-    counter.textContent = `${now}`;
+    animateCounter(counter.id);
   });
   ele.append(counter);
 }
