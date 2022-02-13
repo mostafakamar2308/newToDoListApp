@@ -1,35 +1,48 @@
 var sectionObj = {
   Programming: {
-    "Productive Hero": {
-      "Make The app": {},
-      "Publish the app": {},
-      "Make Money": {},
-      "Marry ?": {},
+    "Not Done": {
+      "Productive Hero": {
+        "Make The app": {},
+        "Publish the app": {},
+        "Make Money": {},
+        "Marry ?": {},
+      },
     },
-    "Social Media Limiting app": {
-      "Make The app": {},
-      "Publish the app": {},
-      "Make Money": {},
-      "Marry ?": {},
+    Done: {
+      "Social Media Limiting app": {
+        "Make The app": {},
+        "Publish the app": {},
+        "Make Money": {},
+        "Marry ?": {},
+      },
     },
   },
   "Medical School": {
-    CVS: { Anatomy: {}, physiology: {}, Pharmacology: {} },
-    CNS: { Anatomy: {}, physiology: {}, Pathology: {} },
+    "Not Done": {
+      CVS: { Anatomy: {}, physiology: {}, Pharmacology: {} },
+      CNS: { Anatomy: {}, physiology: {}, Pathology: {} },
+    },
+    Done: {},
   },
   Home: {
-    "clean Bedroom": {
-      "Make the bed": {},
-      "Clean your desk": {},
-      "Organize Your books": {},
+    "Not Done": {
+      "clean Bedroom": {
+        "Make the bed": {},
+        "Clean your desk": {},
+        "Organize Your books": {},
+      },
+      cook: { "get Ingredients": {}, "make Fire": {} },
     },
-    cook: { "get Ingredients": {}, "make Fire": {} },
+    Done: {},
   },
   Personal: {
-    Diary: { "10/2": {}, "11/2": {} },
-    Family: { "Talk to Sister": {}, "Get mother from Grandmother": {} },
-    Training: { "Leg Day": {}, "10KM Run": {} },
-    Friends: { "Talk to Khattab": {} },
+    "Not Done": {
+      Diary: { "10/2": {}, "11/2": {} },
+      Family: { "Talk to Sister": {}, "Get mother from Grandmother": {} },
+      Training: { "Leg Day": {}, "10KM Run": {} },
+      Friends: { "Talk to Khattab": {} },
+    },
+    Done: {},
   },
 };
 let colorIndex = 0;
@@ -188,35 +201,69 @@ function createProjectList(eleClicked) {
 }
 
 function createProjectsInProjectList(eleClicked, projectSection) {
-  Object.keys(sectionObj[eleClicked.path[0].textContent]).forEach((ele) => {
-    createProject(ele, projectSection);
-  });
+  let notDone = document.createElement("section");
+  notDone.id = "projects-not-done-container";
+  let notDoneTitle = document.createElement("h3");
+  notDoneTitle.textContent = "Not Completed";
+  notDone.append(notDoneTitle);
+  Object.keys(sectionObj[eleClicked.path[0].textContent]["Not Done"]).forEach(
+    (ele) => {
+      createProject(ele, notDone, "Not Done");
+    }
+  );
+  projectSection.append(notDone);
+
+  //make Done Section
+  let Done = document.createElement("section");
+  Done.id = "projects-done-container";
+  let DoneTitle = document.createElement("h3");
+  DoneTitle.textContent = "Completed";
+  Done.append(DoneTitle);
+  Object.keys(sectionObj[eleClicked.path[0].textContent]["Done"]).forEach(
+    (ele) => {
+      createProject(ele, Done, "Done");
+    }
+  );
+  projectSection.append(Done);
   animateProjects();
   addNewProjectDiv(projectSection);
 }
-function createProject(ele, projectSection) {
+function createProject(ele, projectSection, division, container) {
   let project = document.createElement("div");
   project.classList.add("project");
-  project.textContent = ele;
+  let text = document.createElement("label");
+  text.textContent = ele;
+  project.append(text);
   project.id = ele.split(" ").join("-");
-  chooseColor(project);
-  project.addEventListener("click", function l() {
-    openedProject = ele;
-    let taskColor = getComputedStyle(project).backgroundColor;
-    animateProjectList();
-    setTimeout(() => {
-      document
-        .querySelector("main")
-        .removeChild(document.querySelector("#project-section"));
-      document
-        .querySelector("main")
-        .removeChild(document.querySelector(".categories-list"));
-      closeModal(document.querySelector(".add"));
-    }, 1000);
-
-    createTasksWindow(taskColor);
-  });
   projectSection.append(project);
+  if (project.parentNode.children[0].textContent === "Not Completed") {
+    let settings = document.createElement("span");
+    settings.textContent = "---";
+    settings.addEventListener("click", function () {
+      completeMenu(settings);
+    });
+    project.append(settings);
+  }
+
+  chooseColor(project);
+  project.addEventListener("click", function l(event) {
+    if (event.target.tagName === "LABEL" || event.target.tagName === "DIV") {
+      openedProject = ele;
+      let taskColor = getComputedStyle(project).backgroundColor;
+      animateProjectList();
+      setTimeout(() => {
+        document
+          .querySelector("main")
+          .removeChild(document.querySelector("#project-section"));
+        document
+          .querySelector("main")
+          .removeChild(document.querySelector(".categories-list"));
+        closeModal(document.querySelector(".add"));
+      }, 1000);
+
+      createTasksWindow(taskColor, division);
+    }
+  });
 }
 
 function createAddSection(ele) {
@@ -342,8 +389,14 @@ function createProjectModal() {
     document
       .querySelector("#project-section")
       .removeChild(document.querySelector("#project-section").lastChild);
-    createProject(inpt.value, document.querySelector("#project-section"));
-    sectionObj[document.querySelector("h2").textContent][inpt.value] = [];
+    createProject(
+      inpt.value,
+      document.querySelector("#projects-not-done-container"),
+      "Not Done"
+    );
+    sectionObj[document.querySelector("h2").textContent]["Not Done"][
+      inpt.value
+    ] = {};
     addNewProjectDiv(document.querySelector("#project-section"));
     closeModal(document.querySelector(".project-modal"));
   });
@@ -401,7 +454,7 @@ function animateProjectList() {
   });
 }
 
-function createTasksWindow(color) {
+function createTasksWindow(color, division) {
   let taskWindowContainer = document.createElement("section");
   taskWindowContainer.id = "taskWindowContainer";
   let taskWindow = document.createElement("section");
@@ -413,27 +466,27 @@ function createTasksWindow(color) {
   let tasksContainer = document.createElement("section");
   tasksContainer.id = "tasks-container";
   taskWindow.append(tasksContainer);
-  createTasks();
-  createAddTaskBtn();
+  createTasks(division);
+  createAddTaskBtn(division);
   scrollOrNo(taskWindow, "y");
 }
-function createTasks() {
+function createTasks(division) {
   Object.keys(
-    sectionObj[openedSection.split("-").join(" ")][
+    sectionObj[openedSection.split("-").join(" ")][division][
       openedProject.split("-").join(" ")
     ]
   ).forEach((ele) => {
-    createTask(ele);
+    createTask(ele, division);
   });
 }
-function createTask(ele) {
+function createTask(ele, division) {
   let task = document.createElement("div");
   task.classList.add("task");
   task.id = ele.split(" ").join("-");
   task.addEventListener("click", function (event) {
     if (event.target.tagName !== "BUTTON") {
       markTask(task);
-      markTaskInObject(ele);
+      markTaskInObject(ele, division);
     }
   });
   let taskText = document.createElement("label");
@@ -451,7 +504,7 @@ function createTask(ele) {
   task.append(btn);
   document.querySelector("#tasks-container").append(task);
   let taskSyntax =
-    sectionObj[openedSection.split("-").join(" ")][
+    sectionObj[openedSection.split("-").join(" ")][division][
       openedProject.split("-").join(" ")
     ][ele];
   if (!taskSyntax.hasOwnProperty("done") || taskSyntax["done"] == false) {
@@ -498,12 +551,12 @@ function createTimerModal(task) {
   timerContainer.append(timer);
   document.body.append(timerContainer);
 }
-function createAddTaskBtn() {
+function createAddTaskBtn(division) {
   let btn = document.createElement("button");
   btn.id = "add-task";
   btn.textContent = "Add New Task";
   btn.addEventListener("click", function () {
-    createNewTaskModal();
+    createNewTaskModal(division);
   });
   document.querySelector("#task-window").append(btn);
 }
@@ -511,7 +564,7 @@ function animateTaskWindow(t) {
   gsap.from(t, { duration: 1, delay: 1, scale: 0, opacity: 0 });
 }
 
-function createNewTaskModal() {
+function createNewTaskModal(division) {
   let container = document.createElement("section");
   container.id = "new-task-container";
   let modal = document.createElement("section");
@@ -524,13 +577,13 @@ function createNewTaskModal() {
   btn.id = "add-task-final";
   btn.textContent = "Add New Task";
   btn.addEventListener("click", function () {
-    createTask(input.value);
-    sectionObj[openedSection.split("-").join(" ")][
+    sectionObj[openedSection.split("-").join(" ")][division][
       openedProject.split("-").join(" ")
     ][input.value] = { done: false };
+    createTask(input.value, division);
     removeModal(document.querySelector("#new-task-container"));
     removeModal(document.querySelector("#add-task"));
-    createAddTaskBtn();
+    createAddTaskBtn(division);
     scrollOrNo(document.querySelector("#task-window"), "y");
   });
   modal.append(span);
@@ -549,9 +602,9 @@ function markTask(ele) {
   ele.children[0].classList.toggle("marked");
 }
 
-function markTaskInObject(ele) {
+function markTaskInObject(ele, division) {
   let task =
-    sectionObj[openedSection.split("-").join(" ")][
+    sectionObj[openedSection.split("-").join(" ")][division][
       openedProject.split("-").join(" ")
     ][ele];
   if (!task.hasOwnProperty("done") || task.done != true) {
@@ -601,3 +654,39 @@ function countDownF(s, m, h, ele, task) {
   }, 1000);
 }
 let workk = 0;
+let menu = 0;
+function completeMenu(ele) {
+  let container = document.createElement("span");
+  container.classList.add("list");
+  let markAsComplete = document.createElement("span");
+  markAsComplete.textContent = "Mark As Complete";
+  markAsComplete.addEventListener("click", function () {
+    moveCompletedProject(
+      sectionObj[openedSection.split("-").join(" ")]["Not Done"],
+      markAsComplete.parentNode.parentNode.parentNode.id.split("-").join(" ")
+    );
+    createProject(
+      markAsComplete.parentNode.parentNode.parentNode.id.split("-").join(" "),
+      document.querySelector("#projects-done-container"),
+      "Done"
+    );
+    removecompleteObject(
+      markAsComplete.parentNode.parentNode.parentNode.id.split("-").join(" ")
+    );
+    removeModal(
+      document.querySelector(
+        `#${markAsComplete.parentNode.parentNode.parentNode.id}`
+      )
+    );
+  });
+  container.append(markAsComplete);
+  ele.append(container);
+}
+function moveCompletedProject(obj, l) {
+  sectionObj[openedSection.split("-").join(" ")]["Done"][Object.keys(obj)[0]] =
+    obj[l];
+}
+function removecompleteObject(property) {
+  delete sectionObj[openedSection.split("-").join(" ")]["Not Done"][property];
+  console.log(sectionObj);
+}

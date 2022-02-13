@@ -159,8 +159,7 @@ h2 {
   padding-left: 0.5rem;
   color: white;
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
   padding: 1rem;
   column-gap: 20px;
@@ -365,6 +364,20 @@ header {
   grid-column-start: 2;
   font-size: 2rem;
 }
+.list {
+  background-color: black;
+  position: absolute;
+  width: max-content;
+  bottom: -200%;
+  left: -100%;
+  padding: 1rem;
+  z-index: 99999999;
+}
+.list span:hover {
+  width: fit-content;
+  color: black;
+  background-color: white;
+}
 
 @media screen and (min-width: 426px) {
   body {
@@ -390,7 +403,30 @@ header {
 
   .project {
     width: 60%;
+    display: flex;
   }
+  .project > label {
+    justify-self: center;
+    text-align: center;
+  }
+  .project * {
+    color: white;
+  }
+  .project > span {
+    display: block;
+    align-self: flex-end;
+    border-radius: 10px;
+    padding: 0 0.5rem;
+    width: fit-content;
+    height: min-content;
+    transition: 0.3s;
+    border: white solid 2px;
+    position: relative;
+  }
+  .project > span:hover {
+    box-shadow: white 0 0 5px 0;
+  }
+
   #task-window {
     height: calc(100vh - 100px);
     padding: 20px;
