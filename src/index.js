@@ -10,8 +10,6 @@ if (!storage.getItem("sectionObj")) {
           "Make Money": {},
           "Marry ?": {},
         },
-      },
-      Done: {
         "Social Media Limiting app": {
           "Make The app": {},
           "Publish the app": {},
@@ -19,6 +17,7 @@ if (!storage.getItem("sectionObj")) {
           "Marry ?": {},
         },
       },
+      Done: {},
     },
     "Medical School": {
       "Not Done": {
@@ -191,8 +190,6 @@ function scrollOrNo(el, dimension) {
   }
 }
 function createProjectList(eleClicked) {
-  DoneCounter = 0;
-  notDoneCounter = 0;
   openedSection = eleClicked.path[0].id;
   if (document.querySelector("#project-section")) {
     document
@@ -719,6 +716,7 @@ function createNewTaskModal(division) {
     removeModal(document.querySelector("#add-task"));
     createAddTaskBtn(division);
     scrollOrNo(document.querySelector("#task-window"), "y");
+    storage.setItem("sectionObj", JSON.stringify(sectionObj));
   });
   modal.append(span);
   modal.append(input);
@@ -746,10 +744,11 @@ function markTaskInObject(ele, division) {
   } else {
     task["done"] = false;
   }
+  storage.setItem("sectionObj", JSON.stringify(sectionObj));
 }
 function timerF(num, ele, task) {
   workk = 1;
-  let min = num;
+  let min = num * 25;
   let hours, minutes, s;
   hours = Math.floor(min / 60);
   minutes = min - hours * 60;
@@ -789,6 +788,12 @@ function countDownF(s, m, h, ele, task) {
 }
 let workk = 0;
 let menu = 0;
+function markAllTasksInObj(hmmm) {
+  let project = sectionObj[openedSection.split("-").join(" ")]["Done"][hmmm];
+  for (let i = 0; i < Object.keys(project).length; i++) {
+    project[Object.keys(project)[i]] = { done: true };
+  }
+}
 function completeMenu(ele) {
   let container = document.createElement("span");
   container.classList.add("list");
@@ -799,6 +804,10 @@ function completeMenu(ele) {
       sectionObj[openedSection.split("-").join(" ")]["Not Done"],
       markAsComplete.parentNode.parentNode.parentNode.id.split("-").join(" ")
     );
+    let index = ele.parentNode.textContent.indexOf("---Mark As Complete");
+    let hmmm = ele.parentNode.textContent.slice(0, index);
+    console.log(hmmm);
+    markAllTasksInObj(hmmm);
 
     if (
       document.querySelector(".lol").style.transform == "rotate(90deg)" ||
