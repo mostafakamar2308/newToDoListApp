@@ -209,7 +209,7 @@ function createProjectList(eleClicked) {
   createProjectsInProjectList(eleClicked, projectSection);
   addNewProjectDiv(projectSection);
 
-  scrollOrNo(projectSection, "y");
+  scrollOrNo(document.querySelector("main"), "y");
 }
 
 function createProjectsInProjectList(eleClicked, projectSection) {
@@ -221,22 +221,55 @@ function createProjectsInProjectList(eleClicked, projectSection) {
   }
 
   notDoneTitle.innerHTML =
-    "<span class='not-lol'> &#9658; </span>Not Completed";
+    "<div class='not-lol' style='display:inline-block; transform: rotate(0deg)'> &#9658; </div>Not Completed";
   notDone.append(notDoneTitle);
-  notDone.addEventListener("click", function () {
-    if (notDoneCounter == 0) {
-      let l = document.querySelector(".not-lol");
-      gsap.to(l, { duration: 1, rotation: "50" });
-      Object.keys(
-        sectionObj[eleClicked.path[0].textContent]["Not Done"]
-      ).forEach((ele) => {
-        createProject(ele, notDone, "Not Done");
-      });
-      scrollOrNo(document.querySelector("#project-section"), `y`);
-      animateProjects();
-      notDoneCounter++;
-    } else {
-      return;
+  notDone.addEventListener("click", function (event) {
+    if (event.target.classList.contains("not-lol")) {
+      if (
+        document.querySelector(".not-lol").style.transform == "rotate(0deg)" ||
+        document.querySelector(".not-lol").style.transform ==
+          "translate(0px, 0px)"
+      ) {
+        gsap.to(".not-lol", { duration: 0.3, rotationZ: 90 });
+        if (
+          Object.keys(sectionObj[eleClicked.path[0].textContent]["Not Done"])
+            .length === 0
+        ) {
+          console.log("works");
+          let no = document.createElement("div");
+          no.textContent = "No projects Yet";
+          document.querySelector("#projects-not-done-container").append(no);
+        } else {
+          Object.keys(
+            sectionObj[eleClicked.path[0].textContent]["Not Done"]
+          ).forEach((ele) => {
+            createProject(ele, notDone, "Not Done");
+          });
+        }
+        scrollOrNo(document.querySelector("main"), `y`);
+        animateProjectsInNotDone();
+      } else {
+        gsap.to(".not-lol", { duration: 0.3, rotationZ: 0 });
+        for (
+          let i = 0;
+          i < document.querySelectorAll(".Not-Done").length;
+          i++
+        ) {
+          removeModal(document.querySelector(".Not-Done"));
+        }
+        console.log(
+          document.querySelector("#projects-not-done-container").lastChild
+            .tagName
+        );
+        if (
+          document.querySelector("#projects-not-done-container").lastChild
+            .tagName !== "H3"
+        ) {
+          removeModal(
+            document.querySelector("#projects-not-done-container").lastChild
+          );
+        }
+      }
     }
   });
   projectSection.append(notDone);
@@ -245,36 +278,64 @@ function createProjectsInProjectList(eleClicked, projectSection) {
   let Done = document.createElement("section");
   Done.id = "projects-done-container";
   let DoneTitle = document.createElement("h3");
-  DoneTitle.innerHTML = "<span class='lol'> &#9658; </span>Completed";
+  DoneTitle.innerHTML =
+    "<div class='lol' style='display:inline-block; transform: rotate(0deg)'> &#9658; </div>Completed";
   Done.append(DoneTitle);
   if (!sectionObj[eleClicked.path[0].textContent].hasOwnProperty("Done")) {
     sectionObj[eleClicked.path[0].textContent]["Done"] = {};
   }
 
-  Done.addEventListener("click", function () {
-    if (DoneCounter == 0) {
-      Object.keys(sectionObj[eleClicked.path[0].textContent]["Done"]).forEach(
-        (ele) => {
-          createProject(ele, Done, "Done");
+  Done.addEventListener("click", function (event) {
+    if (event.target.classList.contains("lol")) {
+      if (
+        document.querySelector(".lol").style.transform == "rotate(0deg)" ||
+        document.querySelector(".lol").style.transform == "translate(0px, 0px)"
+      ) {
+        gsap.to(".lol", { duration: 0.3, rotationZ: 90 });
+        if (
+          Object.keys(sectionObj[eleClicked.path[0].textContent]["Done"])
+            .length === 0
+        ) {
+          let no = document.createElement("div");
+          no.textContent = "No projects Yet";
+          document.querySelector("#projects-done-container").append(no);
+        } else {
+          Object.keys(
+            sectionObj[eleClicked.path[0].textContent]["Done"]
+          ).forEach((ele) => {
+            createProject(ele, Done, "Done");
+          });
         }
-      );
-      scrollOrNo(document.querySelector("#project-section"), `y`);
-      animateProjects();
-      DoneCounter++;
+        scrollOrNo(document.querySelector("main"), `y`);
+        animateProjectsInDone();
+      } else {
+        gsap.to(".lol", { duration: 0.3, rotationZ: 0 });
+        for (let i = 0; i < document.querySelectorAll(".Done").length; i++) {
+          removeModal(document.querySelector(".Done"));
+        }
+        if (
+          document.querySelector("#projects-done-container").lastChild
+            .tagName !== "H3"
+        ) {
+          removeModal(
+            document.querySelector("#projects-done-container").lastChild
+          );
+        }
+      }
     }
   });
   projectSection.append(Done);
-  animateProjects();
 }
 function createProject(ele, projectSection, division) {
   let project = document.createElement("div");
   project.classList.add("project");
+  project.classList.add(division.toString().split(" ").join("-"));
   let text = document.createElement("label");
   text.textContent = ele;
   project.append(text);
   project.id = ele.split(" ").join("-");
   projectSection.append(project);
-  if (project.parentNode.children[0].textContent === "Not Completed") {
+  if (project.parentNode.children[0].textContent === " ► Not Completed") {
     let settings = document.createElement("span");
     settings.textContent = "---";
     settings.addEventListener("click", function () {
@@ -433,9 +494,7 @@ function createProjectModal() {
   let btn = document.createElement("div");
   btn.textContent = "Start New Project";
   btn.addEventListener("click", function h() {
-    document
-      .querySelector("#project-section")
-      .removeChild(document.querySelector("#project-section").lastChild);
+    document.querySelector(".not-lol").click();
     createProject(
       inpt.value,
       document.querySelector("#projects-not-done-container"),
@@ -446,7 +505,6 @@ function createProjectModal() {
     ] = {};
     storage.setItem("sectionObj", JSON.stringify(sectionObj));
 
-    addNewProjectDiv(document.querySelector("#project-section"));
     closeModal(document.querySelector(".project-modal"));
   });
   div.append(h3);
@@ -464,25 +522,52 @@ function removeModal(ele) {
 function closeModal(ele) {
   ele.style.display = "none";
 }
-function animateProjects() {
+function animateProjectsInNotDone() {
   let i = 2;
-  document.querySelectorAll(".project").forEach((ele) => {
+  document.querySelectorAll(".Not-Done").forEach((ele) => {
     if (i % 2 == 0) {
-      ele.classList.add("left");
+      ele.classList.add("left-notDone");
       i++;
     } else {
-      ele.classList.add("right");
+      ele.classList.add("right-notDone");
       i++;
     }
   });
-  gsap.from(".left", {
+  gsap.from(".left-notDone", {
     duration: 0.5,
     opacity: 0,
     x: -400,
     stagger: 1,
     ease: "ease",
   });
-  gsap.from(".right", {
+  gsap.from(".right-notDone", {
+    duration: 0.5,
+    delay: 0.5,
+    x: 400,
+    opacity: 0,
+    ease: "ease",
+    stagger: 1,
+  });
+}
+function animateProjectsInDone() {
+  let i = 2;
+  document.querySelectorAll(".Done").forEach((ele) => {
+    if (i % 2 == 0) {
+      ele.classList.add("left-Done");
+      i++;
+    } else {
+      ele.classList.add("right-Done");
+      i++;
+    }
+  });
+  gsap.from(".left-Done", {
+    duration: 0.5,
+    opacity: 0,
+    x: -400,
+    stagger: 1,
+    ease: "ease",
+  });
+  gsap.from(".right-Done", {
     duration: 0.5,
     delay: 0.5,
     x: 400,
@@ -714,11 +799,17 @@ function completeMenu(ele) {
       sectionObj[openedSection.split("-").join(" ")]["Not Done"],
       markAsComplete.parentNode.parentNode.parentNode.id.split("-").join(" ")
     );
-    createProject(
-      markAsComplete.parentNode.parentNode.parentNode.id.split("-").join(" "),
-      document.querySelector("#projects-done-container"),
-      "Done"
-    );
+
+    if (
+      document.querySelector(".lol").style.transform == "rotate(90deg)" ||
+      document.querySelector(".lol").style.transform == "translate(0px, 0px)"
+    ) {
+      createProject(
+        markAsComplete.parentNode.parentNode.parentNode.id.split("-").join(" "),
+        document.querySelector("#projects-done-container"),
+        "Done"
+      );
+    }
     removecompleteObject(
       markAsComplete.parentNode.parentNode.parentNode.id.split("-").join(" ")
     );
@@ -727,15 +818,16 @@ function completeMenu(ele) {
         `#${markAsComplete.parentNode.parentNode.parentNode.id}`
       )
     );
+    storage.setItem("sectionObj", JSON.stringify(sectionObj));
   });
   container.append(markAsComplete);
   ele.append(container);
 }
 function moveCompletedProject(obj, l) {
-  sectionObj[openedSection.split("-").join(" ")]["Done"][Object.keys(obj)[0]] =
-    obj[l];
+  sectionObj[openedSection.split("-").join(" ")]["Done"][
+    Object.keys(obj)[Object.keys(obj).indexOf(l)]
+  ] = obj[l];
 }
 function removecompleteObject(property) {
   delete sectionObj[openedSection.split("-").join(" ")]["Not Done"][property];
-  console.log(sectionObj);
 }
