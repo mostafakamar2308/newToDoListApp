@@ -1,50 +1,59 @@
-var sectionObj = {
-  Programming: {
-    "Not Done": {
-      "Productive Hero": {
-        "Make The app": {},
-        "Publish the app": {},
-        "Make Money": {},
-        "Marry ?": {},
+let storage = window.localStorage,
+  sectionObj;
+if (!storage.getItem("sectionObj")) {
+  sectionObj = {
+    Programming: {
+      "Not Done": {
+        "Productive Hero": {
+          "Make The app": {},
+          "Publish the app": {},
+          "Make Money": {},
+          "Marry ?": {},
+        },
+      },
+      Done: {
+        "Social Media Limiting app": {
+          "Make The app": {},
+          "Publish the app": {},
+          "Make Money": {},
+          "Marry ?": {},
+        },
       },
     },
-    Done: {
-      "Social Media Limiting app": {
-        "Make The app": {},
-        "Publish the app": {},
-        "Make Money": {},
-        "Marry ?": {},
+    "Medical School": {
+      "Not Done": {
+        CVS: { Anatomy: {}, physiology: {}, Pharmacology: {} },
+        CNS: { Anatomy: {}, physiology: {}, Pathology: {} },
       },
+      Done: {},
     },
-  },
-  "Medical School": {
-    "Not Done": {
-      CVS: { Anatomy: {}, physiology: {}, Pharmacology: {} },
-      CNS: { Anatomy: {}, physiology: {}, Pathology: {} },
-    },
-    Done: {},
-  },
-  Home: {
-    "Not Done": {
-      "clean Bedroom": {
-        "Make the bed": {},
-        "Clean your desk": {},
-        "Organize Your books": {},
+    Home: {
+      "Not Done": {
+        "clean Bedroom": {
+          "Make the bed": {},
+          "Clean your desk": {},
+          "Organize Your books": {},
+        },
+        cook: { "get Ingredients": {}, "make Fire": {} },
       },
-      cook: { "get Ingredients": {}, "make Fire": {} },
+      Done: {},
     },
-    Done: {},
-  },
-  Personal: {
-    "Not Done": {
-      Diary: { "10/2": {}, "11/2": {} },
-      Family: { "Talk to Sister": {}, "Get mother from Grandmother": {} },
-      Training: { "Leg Day": {}, "10KM Run": {} },
-      Friends: { "Talk to Khattab": {} },
+    Personal: {
+      "Not Done": {
+        Diary: { "10/2": {}, "11/2": {} },
+        Family: { "Talk to Sister": {}, "Get mother from Grandmother": {} },
+        Training: { "Leg Day": {}, "10KM Run": {} },
+        Friends: { "Talk to Khattab": {} },
+      },
+      Done: {},
     },
-    Done: {},
-  },
-};
+  };
+  storage.setItem("sectionObj", JSON.stringify(sectionObj));
+} else {
+  sectionObj = JSON.parse(storage.getItem("sectionObj"));
+  console.log(sectionObj);
+}
+
 let colorIndex = 0;
 
 document.addEventListener("click", function (event) {
@@ -66,6 +75,8 @@ document.addEventListener("click", function (event) {
 });
 let openedSection = "";
 let openedProject = "";
+let notDoneCounter = 0,
+  DoneCounter = 0;
 (function createHeader() {
   //creating the header for the site
   let header = document.createElement("header");
@@ -108,7 +119,6 @@ function createSection(ele) {
     createSectionsDivs(catSection, item);
   });
   addsectionDiv(catSection);
-
   scrollOrNo(catSection, "x");
   window.addEventListener("resize", scrollOrNo, catSection, "x");
 }
@@ -163,7 +173,6 @@ function scrollOrNo(el, dimension) {
 
     let isOverflowing = el.clientWidth < el.scrollWidth;
 
-    el.style.overflow = "hidden";
     if (isOverflowing == true) {
       el.style.overflowX = "scroll";
     } else {
@@ -174,7 +183,6 @@ function scrollOrNo(el, dimension) {
 
     let isOverflowing = el.clientHeight < el.scrollHeight;
 
-    el.style.overflow = "hidden";
     if (isOverflowing == true) {
       el.style.overflowY = "scroll";
     } else {
@@ -183,6 +191,8 @@ function scrollOrNo(el, dimension) {
   }
 }
 function createProjectList(eleClicked) {
+  DoneCounter = 0;
+  notDoneCounter = 0;
   openedSection = eleClicked.path[0].id;
   if (document.querySelector("#project-section")) {
     document
@@ -197,6 +207,8 @@ function createProjectList(eleClicked) {
   projectTitle.textContent = `${eleClicked.path[0].textContent}`;
   projectSection.append(projectTitle);
   createProjectsInProjectList(eleClicked, projectSection);
+  addNewProjectDiv(projectSection);
+
   scrollOrNo(projectSection, "y");
 }
 
@@ -204,31 +216,57 @@ function createProjectsInProjectList(eleClicked, projectSection) {
   let notDone = document.createElement("section");
   notDone.id = "projects-not-done-container";
   let notDoneTitle = document.createElement("h3");
-  notDoneTitle.textContent = "Not Completed";
+  if (!sectionObj[eleClicked.path[0].textContent].hasOwnProperty("Not Done")) {
+    console.log(sectionObj);
+  }
+
+  notDoneTitle.innerHTML =
+    "<span class='not-lol'> &#9658; </span>Not Completed";
   notDone.append(notDoneTitle);
-  Object.keys(sectionObj[eleClicked.path[0].textContent]["Not Done"]).forEach(
-    (ele) => {
-      createProject(ele, notDone, "Not Done");
+  notDone.addEventListener("click", function () {
+    if (notDoneCounter == 0) {
+      let l = document.querySelector(".not-lol");
+      gsap.to(l, { duration: 1, rotation: "50" });
+      Object.keys(
+        sectionObj[eleClicked.path[0].textContent]["Not Done"]
+      ).forEach((ele) => {
+        createProject(ele, notDone, "Not Done");
+      });
+      scrollOrNo(document.querySelector("#project-section"), `y`);
+      animateProjects();
+      notDoneCounter++;
+    } else {
+      return;
     }
-  );
+  });
   projectSection.append(notDone);
 
   //make Done Section
   let Done = document.createElement("section");
   Done.id = "projects-done-container";
   let DoneTitle = document.createElement("h3");
-  DoneTitle.textContent = "Completed";
+  DoneTitle.innerHTML = "<span class='lol'> &#9658; </span>Completed";
   Done.append(DoneTitle);
-  Object.keys(sectionObj[eleClicked.path[0].textContent]["Done"]).forEach(
-    (ele) => {
-      createProject(ele, Done, "Done");
+  if (!sectionObj[eleClicked.path[0].textContent].hasOwnProperty("Done")) {
+    sectionObj[eleClicked.path[0].textContent]["Done"] = {};
+  }
+
+  Done.addEventListener("click", function () {
+    if (DoneCounter == 0) {
+      Object.keys(sectionObj[eleClicked.path[0].textContent]["Done"]).forEach(
+        (ele) => {
+          createProject(ele, Done, "Done");
+        }
+      );
+      scrollOrNo(document.querySelector("#project-section"), `y`);
+      animateProjects();
+      DoneCounter++;
     }
-  );
+  });
   projectSection.append(Done);
   animateProjects();
-  addNewProjectDiv(projectSection);
 }
-function createProject(ele, projectSection, division, container) {
+function createProject(ele, projectSection, division) {
   let project = document.createElement("div");
   project.classList.add("project");
   let text = document.createElement("label");
@@ -292,6 +330,8 @@ function createAddList() {
 
   let chooseProject = document.createElement("div");
   chooseProject.textContent = "Project";
+  chooseProject.addEventListener("click", addNewProject);
+
   options.append(chooseProject);
   document.querySelector(".add").append(options);
 }
@@ -338,7 +378,10 @@ function addSection() {
   );
   addsectionDiv(document.querySelector(".categories-list"));
   let newObj = {
-    [newSection.value.charAt(0).toUpperCase() + newSection.value.slice(1)]: {},
+    [newSection.value.charAt(0).toUpperCase() + newSection.value.slice(1)]: {
+      Done: {},
+      "Not Done": {},
+    },
   };
   addSectionToMainObj(sectionObj, newObj);
   newSection.value = "";
@@ -348,6 +391,10 @@ function addSection() {
 
 function addSectionToMainObj(obj, ele) {
   Object.assign(obj, ele);
+
+  storage.setItem("sectionObj", JSON.stringify(obj));
+  console.log(storage);
+  console.log(obj);
 }
 
 document.querySelectorAll(".add-section").forEach((ele) => {
@@ -397,6 +444,8 @@ function createProjectModal() {
     sectionObj[document.querySelector("h2").textContent]["Not Done"][
       inpt.value
     ] = {};
+    storage.setItem("sectionObj", JSON.stringify(sectionObj));
+
     addNewProjectDiv(document.querySelector("#project-section"));
     closeModal(document.querySelector(".project-modal"));
   });
