@@ -1,5 +1,7 @@
 let storage = window.localStorage,
   sectionObj;
+import logos from "./images/logo.png";
+import man from "./images/man.png";
 if (!storage.getItem("sectionObj")) {
   sectionObj = {
     Programming: {
@@ -74,8 +76,7 @@ document.addEventListener("click", function (event) {
 });
 let openedSection = "";
 let openedProject = "";
-let notDoneCounter = 0,
-  DoneCounter = 0;
+
 (function createHeader() {
   //creating the header for the site
   let header = document.createElement("header");
@@ -85,7 +86,7 @@ let notDoneCounter = 0,
 })();
 function createLogo(ele) {
   let logo = document.createElement("img");
-  logo.src = "/src/images/logo.png";
+  logo.src = logos;
   logo.classList.add("logo");
   ele.append(logo);
 }
@@ -93,7 +94,7 @@ function createUserImage(ele) {
   let userSection = document.createElement("div");
   userSection.classList.add("user-profile");
   let userImg = document.createElement("img");
-  userImg.src = "/src/images/man.png";
+  userImg.src = man;
   userSection.append(userImg);
   ele.append(userSection);
 }
