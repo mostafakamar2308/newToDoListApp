@@ -16,370 +16,358 @@
   --border-colors: #a1afa4d0;
 }
 
-body {
-  font-size: 2em;
-  position: relative;
-  overflow: hidden;
-}
-.add {
-  z-index: 9999;
-  position: fixed;
-  bottom: 0vh;
-  right: 0;
-  width: fit-content;
-  height: fit-content;
-}
-.project-modal {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.849);
-}
-.project-modal > div {
-  background-color: white;
-  padding: 1em;
-}
-.project-modal input {
-  font-size: 1.5rem;
-}
-main {
-  position: relative;
-}
-.project-modal > div :last-child {
-  font-size: 01.5rem;
-  cursor: pointer;
-  border: 2px solid var(--border-colors);
-  width: fit-content;
-  margin: 0 auto;
-  margin-top: 5px;
-  padding: 05px;
-  transition: 0.5s;
-}
-.project-modal > div :last-child:hover {
-  background-color: rgba(0, 0, 0, 0.853);
-  color: white;
-}
-.options {
-  font-size: 1.5rem;
-  background-color: #eee;
-  display: none;
-  position: absolute;
-  right: 2vw;
-  bottom: 20vh;
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: bold;
-}
-.options div {
-  margin-bottom: 10px;
-  padding: 0px 10px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.options div:hover {
-  background-color: #ccc;
-}
-.options div:first-of-type {
-  margin-top: 10px;
-}
-.new-project {
-  padding: 1rem;
-  column-gap: 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  margin-left: 10px;
-  width: 30%;
-  cursor: pointer;
-  color: white;
-  background-color: black;
-  margin-top: 50px;
-}
-
-.add-new {
-  position: absolute;
-  bottom: 5vh;
-  right: 5vw;
-  cursor: pointer;
-  background-color: var(--add-color);
-  color: white;
-  border-radius: 50%;
-  width: 80px;
-  height: 80px;
-  text-align: center;
-  line-height: 70%;
-  font-size: 3em;
-}
-.categories-list {
-  max-width: 100%;
-  max-height: 100px;
-  display: flex;
-  overflow-x: scroll;
-}
-.categories-list div {
-  border: none;
-  padding: 0.5rem 1rem;
-  margin: 1rem;
-  margin-right: 0.3rem;
-  cursor: pointer;
-  color: white;
-  border-radius: 10px;
-  transition: 0.3s;
-  min-width: fit-content;
-  max-width: max-content;
-}
-.categories-list div:hover {
-  transform: scale(1.15);
-}
-h2 {
-  display: inline-block;
-  padding-bottom: 0.2rem;
-  margin-bottom: 0.5rem;
-  margin-left: 0.4rem;
-  border-bottom: 1px solid var(--border-colors);
-}
-.red {
-  background-color: var(--task-color-1);
-}
-.orange {
-  background-color: var(--task-color-2);
-}
-.yellow {
-  background-color: var(--task-color-3);
-}
-.blue {
-  background-color: var(--task-color-4);
-}
-.project {
-  padding-left: 0.5rem;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  column-gap: 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  margin-left: 10px;
-  cursor: pointer;
-}
-.done-marker {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: white;
-}
-.logo,
-.user-profile img {
-  width: 50px;
-  margin-top: 10px;
-  transition: 0.3s;
-  text-align: center;
-}
-.user-profile img {
-  border-radius: 50%;
-}
-.logo:hover {
-  transform: scale(1.2);
-}
-.user-profile:hover img {
-  box-shadow: 0 0 10px 1px var(--task-color-1);
-}
-
-.add-section {
-  background-color: #ccc;
-}
-/* #project-section {
-} */
-#modal-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(219, 150, 46, 0.5);
-}
-#add-task {
-  width: fit-content;
-  margin: 0 auto;
-  padding: 1rem 2rem;
-  border: white 1px solid;
-  border-radius: 15px;
-  background-color: #71c562;
-  color: white;
-  cursor: pointer;
-  transition: 0.25s;
-}
-#add-task:hover {
-  box-shadow: white 0 0 10px 0, white 0 0 5px 0 inset;
-}
-#new-task-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.644);
-}
-#new-task-window {
-  background-color: white;
-  padding: 2rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  row-gap: 15px;
-}
-#nameOfTask {
-  font-size: 2.5rem;
-  text-indent: 10px;
-  padding: 5px 0;
-}
-#newSection-modal {
-  width: 400px;
-  height: 250px;
-  padding: 100px;
-  background-color: rgb(202, 86, 39);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-#newSectionName {
-  text-indent: 10px;
-  width: 300px;
-  font-size: 1.5em;
-  outline: none;
-  border: none;
-}
-
-#addSectionBtn {
-  margin-bottom: 20px;
-  width: max-content;
-  font-size: 0.75em;
-  overflow-wrap: break-word;
-}
-#addSectionBtn {
-  border: 2px solid black;
-  padding: 0.25rem;
-  margin-top: 20px;
-  cursor: pointer;
-  background-color: var(--task-color-2);
-}
-
-#newSectionName:focus {
-  outline: none;
-}
-header {
-  background-color: white;
-  z-index: 5;
-}
-#taskWindowContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#add-task-final {
-  background-color: #71c562;
-  color: white;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 0.5rem 1rem;
-  transition: 0.2s;
-}
-#add-task-final:hover {
-  box-shadow: 0 0 10px 0 red, 0 0 3px 0 red inset;
-}
-#counter {
-  justify-self: center;
-  padding: 0 0.5rem;
-  padding-left: 2rem;
-  min-width: 100%;
-  display: grid;
-  grid-template-columns: auto 50px;
-  grid-template-rows: auto auto;
-  grid-template-areas:
-    "lbl counter"
-    "num counter";
-
-  justify-content: space-between;
-}
-#counter label {
-  grid-area: lbl;
-  font-size: 1.5rem;
-}
-#counter input {
-  grid-area: num;
-}
-#counter > div {
-  grid-area: counter;
-  font-size: 2rem;
-  justify-self: end;
-  border-radius: 50%;
-  border: black 1px solid;
-  text-align: center;
-  padding: 1rem;
-  line-height: 0100%;
-  color: black;
-}
-.container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.527);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#timer {
-  width: 400px;
-  display: grid;
-  background-color: white;
-  row-gap: 20px;
-  column-gap: 20px;
-  padding: 1rem;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
-}
-#pomodoro-start {
-  grid-row: 1/3;
-  grid-column-start: 2;
-  font-size: 2rem;
-}
-.list {
-  background-color: black;
-  position: absolute;
-  width: max-content;
-  bottom: -200%;
-  left: -100%;
-  padding: 1rem;
-  z-index: 99999999;
-}
-.list span:hover {
-  width: fit-content;
-  color: black;
-  background-color: white;
-}
-
 @media screen and (min-width: 426px) {
+  body {
+    font-size: 2em;
+    position: relative;
+    overflow: hidden;
+  }
+  .add {
+    z-index: 9999;
+    position: fixed;
+    bottom: 0vh;
+    right: 0;
+    width: fit-content;
+    height: fit-content;
+  }
+  .project-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.849);
+  }
+  .project-modal > div {
+    background-color: white;
+    padding: 1em;
+  }
+  .project-modal input {
+    font-size: 1.5rem;
+  }
+  main {
+    position: relative;
+  }
+  .project-modal > div :last-child {
+    font-size: 01.5rem;
+    cursor: pointer;
+    border: 2px solid var(--border-colors);
+    width: fit-content;
+    margin: 0 auto;
+    margin-top: 5px;
+    padding: 05px;
+    transition: 0.5s;
+  }
+  .project-modal > div :last-child:hover {
+    background-color: rgba(0, 0, 0, 0.853);
+    color: white;
+  }
+  .options {
+    font-size: 1.5rem;
+    background-color: #eee;
+    display: none;
+    position: absolute;
+    right: 2vw;
+    bottom: 20vh;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  .options div {
+    margin-bottom: 10px;
+    padding: 0px 10px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .options div:hover {
+    background-color: #ccc;
+  }
+  .options div:first-of-type {
+    margin-top: 10px;
+  }
+  .new-project {
+    padding: 1rem;
+    column-gap: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    width: 30%;
+    cursor: pointer;
+    color: white;
+    background-color: black;
+    margin-top: 50px;
+  }
+
+  .add-new {
+    position: absolute;
+    bottom: 5vh;
+    right: 5vw;
+    cursor: pointer;
+    background-color: var(--add-color);
+    color: white;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    line-height: 70%;
+    font-size: 3em;
+  }
+  .categories-list {
+    max-width: 100%;
+    max-height: 100px;
+    display: flex;
+    overflow-x: scroll;
+  }
+  .categories-list div {
+    border: none;
+    padding: 0.5rem 1rem;
+    margin: 1rem;
+    margin-right: 0.3rem;
+    cursor: pointer;
+    color: white;
+    border-radius: 10px;
+    transition: 0.3s;
+    min-width: fit-content;
+    max-width: max-content;
+  }
+  .categories-list div:hover {
+    transform: scale(1.15);
+  }
+  h2 {
+    display: inline-block;
+    padding-bottom: 0.2rem;
+    margin-bottom: 0.5rem;
+    margin-left: 0.4rem;
+    border-bottom: 1px solid var(--border-colors);
+  }
+
+  .project {
+    padding-left: 0.5rem;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    column-gap: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  .done-marker {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: white;
+  }
+  .logo,
+  .user-profile img {
+    width: 50px;
+    margin-top: 10px;
+    transition: 0.3s;
+    text-align: center;
+  }
+  .user-profile img {
+    border-radius: 50%;
+  }
+  .logo:hover {
+    transform: scale(1.2);
+  }
+  .user-profile:hover img {
+    box-shadow: 0 0 10px 1px var(--task-color-1);
+  }
+
+  .add-section {
+    background-color: #ccc;
+  }
+  /* #project-section {
+  } */
+  #modal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(219, 150, 46, 0.5);
+  }
+  #add-task {
+    width: fit-content;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    border: white 1px solid;
+    border-radius: 15px;
+    background-color: #71c562;
+    color: white;
+    cursor: pointer;
+    transition: 0.25s;
+  }
+  #add-task:hover {
+    box-shadow: white 0 0 10px 0, white 0 0 5px 0 inset;
+  }
+  #new-task-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.644);
+  }
+  #new-task-window {
+    background-color: white;
+    padding: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+  }
+  #nameOfTask {
+    font-size: 2.5rem;
+    text-indent: 10px;
+    padding: 5px 0;
+  }
+  #newSection-modal {
+    width: 400px;
+    height: 250px;
+    padding: 100px;
+    background-color: rgb(202, 86, 39);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  #newSectionName {
+    text-indent: 10px;
+    width: 300px;
+    font-size: 1.5em;
+    outline: none;
+    border: none;
+  }
+
+  #addSectionBtn {
+    margin-bottom: 20px;
+    width: max-content;
+    font-size: 0.75em;
+    overflow-wrap: break-word;
+  }
+  #addSectionBtn {
+    border: 2px solid black;
+    padding: 0.25rem;
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: var(--task-color-2);
+  }
+
+  #newSectionName:focus {
+    outline: none;
+  }
+  header {
+    background-color: white;
+    z-index: 5;
+  }
+  #taskWindowContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #add-task-final {
+    background-color: #71c562;
+    color: white;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 0.5rem 1rem;
+    transition: 0.2s;
+  }
+  #add-task-final:hover {
+    box-shadow: 0 0 10px 0 red, 0 0 3px 0 red inset;
+  }
+  #counter {
+    justify-self: center;
+    padding: 0 0.5rem;
+    padding-left: 2rem;
+    min-width: 100%;
+    display: grid;
+    grid-template-columns: auto 50px;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "lbl counter"
+      "num counter";
+
+    justify-content: space-between;
+  }
+  #counter label {
+    grid-area: lbl;
+    font-size: 1.5rem;
+  }
+  #counter input {
+    grid-area: num;
+  }
+  #counter > div {
+    grid-area: counter;
+    font-size: 2rem;
+    justify-self: end;
+    border-radius: 50%;
+    border: black 1px solid;
+    text-align: center;
+    padding: 1rem;
+    line-height: 0100%;
+    color: black;
+  }
+  .container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.527);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #timer {
+    width: 400px;
+    display: grid;
+    background-color: white;
+    row-gap: 20px;
+    column-gap: 20px;
+    padding: 1rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+  #pomodoro-start {
+    grid-row: 1/3;
+    grid-column-start: 2;
+    font-size: 2rem;
+  }
+  .list {
+    background-color: black;
+    position: absolute;
+    width: max-content;
+    bottom: -200%;
+    left: -100%;
+    padding: 1rem;
+    z-index: 99999999;
+  }
+  .list span:hover {
+    width: fit-content;
+    color: black;
+    background-color: white;
+  }
   body {
     width: 100vw;
     height: 100vh;
@@ -491,70 +479,5 @@ header {
   #tasks-container > div:hover {
     box-shadow: rgba(255, 255, 255, 0.438) 0 0 10px 0,
       rgba(255, 255, 255, 0.438) 0 0 10px 0 inset;
-  }
-}
-
-@media screen and (max-width: 425px) {
-  body {
-    height: 100vh;
-    width: 100vw;
-  }
-  header {
-    width: 100%;
-    padding: 0.7rem;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border-colors);
-  }
-  .categories-list {
-    display: flex;
-    width: 100vw;
-    overflow: scroll;
-    padding-left: 0.5rem;
-  }
-  .categories-list div {
-    border: 1px solid var(--border-colors);
-    padding: 0.5rem;
-    margin: 0.1rem;
-    cursor: pointer;
-    border-radius: 10px;
-    color: white;
-  }
-  .categories-list div:hover {
-    margin: 0 20px;
-  }
-  .categories-list > div:nth-child(1),
-  .categories-list > div:nth-child(5),
-  .current-project-tasks > .task:nth-child(1) {
-    background-color: var(--task-color-1);
-  }
-  .categories-list > div:nth-child(2),
-  .current-project-tasks > .task:nth-child(2) {
-    background-color: var(--task-color-2);
-  }
-  .categories-list > div:nth-child(3),
-  .current-project-tasks > .task:nth-child(3) {
-    background-color: var(--task-color-3);
-  }
-  .categories-list > div:nth-child(4),
-  .current-project-tasks > .task:nth-child(4) {
-    background-color: var(--task-color-4);
-  }
-  .current-project-tasks {
-    padding-left: 0.5rem;
-  }
-  .project {
-    border-radius: 10px;
-    width: 90vw;
-    margin-bottom: 5px;
-    padding: 1rem;
-    color: white;
-  }
-  .add {
-    bottom: 0%;
-    right: 0vw;
-  }
-  .options {
-    bottom: 15vh;
   }
 }

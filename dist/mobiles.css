@@ -1,0 +1,378 @@
+@media screen and (max-width: 426px) {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  :root {
+    --task-color-1: #fe5147;
+    --task-color-2: #fe9e41;
+    --task-color-3: #f8c509;
+    --task-color-4: #43a0ff;
+    --add-color: #25c06e;
+    --border-colors: #a1afa4d0;
+  }
+  body {
+    min-height: 100vh;
+    width: 100vw;
+    font-size: 1.5rem;
+    padding: 0.25rem;
+    position: relative;
+  }
+  main {
+    position: relative;
+    height: 100vh;
+  }
+  header {
+    width: 100%;
+    padding: 0.7rem;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-colors);
+  }
+  header * {
+    width: 50px;
+  }
+  .categories-list {
+    margin-top: 0.5rem;
+    display: flex;
+    width: 100vw;
+    overflow: scroll;
+    padding-left: 0.5rem;
+  }
+  .categories-list div {
+    border: 1px solid var(--border-colors);
+    padding: 0.5rem;
+    margin: 0.1rem;
+    cursor: pointer;
+    border-radius: 10px;
+    color: white;
+    min-width: max-content;
+    font-size: 2rem;
+  }
+  .red {
+    background-color: var(--task-color-1);
+  }
+  .orange {
+    background-color: var(--task-color-2);
+  }
+  .yellow {
+    background-color: var(--task-color-3);
+  }
+  .blue {
+    background-color: var(--task-color-4);
+  }
+  .categories-list div:active,
+  .categories-list div:hover {
+    margin: 0 0.5rem;
+  }
+  .add-section {
+    background-color: var(--border-colors);
+  }
+
+  .current-project-tasks {
+    padding-left: 0.5rem;
+  }
+  .project {
+    border-radius: 10px;
+    width: 90vw;
+    margin-bottom: 5px;
+    padding: 1rem;
+    color: white;
+  }
+  .add {
+    position: absolute;
+    bottom: 10%;
+    right: 5vw;
+    display: flex;
+    flex-direction: column-reverse;
+    row-gap: 10px;
+    z-index: 9999;
+    width: fit-content;
+    height: fit-content;
+  }
+  .add .add-new {
+    width: 80px;
+    height: 80px;
+    background-color: var(--add-color);
+    color: white;
+    font-size: 4em;
+    padding: 1rem;
+    border-radius: 50%;
+    line-height: 050%;
+  }
+  .options {
+    display: none;
+    background-color: #eee;
+    padding: 0.5rem;
+  }
+  .options div {
+    background-color: transparent;
+    margin-bottom: 5px;
+  }
+  .options div:active {
+    background-color: #ccc;
+  }
+  .new-project {
+    display: inline-block;
+    width: max-content;
+    padding: 0.75rem;
+    margin-left: 0.5rem;
+    border-radius: 20px;
+    background-color: black;
+    color: white;
+  }
+  #project-section {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  #newSection-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    text-align: center;
+    padding: 1rem;
+    row-gap: 15px;
+  }
+  h2 {
+    text-align: center;
+    display: inline-block;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border-colors);
+  }
+  #newSection-modal label {
+    font-size: 1.2rem;
+    width: max-content;
+  }
+  #newSection-modal input {
+    font-size: 2rem;
+    text-indent: 0.5rem;
+    width: 100%;
+  }
+  #newSection-modal btn {
+    padding: 01rem;
+    border-radius: 10px;
+    width: max-content;
+    background-color: black;
+    color: white;
+  }
+  #modal-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.541);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+  }
+  .project-modal {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.541);
+  }
+  .project-modal div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 15px;
+    background-color: white;
+    text-align: center;
+    padding: 1rem;
+  }
+  .project-modal div h3 {
+    width: max-content;
+    font-size: 1.4rem;
+  }
+  .project-modal div input {
+    width: 80%;
+    font-size: 2rem;
+    text-indent: 0.5rem;
+  }
+  .project-modal div div {
+    padding: 01rem;
+    border-radius: 10px;
+    width: max-content;
+    background-color: black;
+    color: white;
+  }
+  .project {
+    display: flex;
+    justify-content: space-between;
+  }
+  .project > * {
+    color: white;
+  }
+  .project > span {
+    padding: 0 0.5rem;
+    border-radius: 10px;
+    border: 1px solid white;
+    position: relative;
+  }
+  .list {
+    z-index: 9999;
+    position: absolute;
+    bottom: -100%;
+    margin-left: -420%;
+    padding: 1rem;
+    width: max-content;
+    background-color: green;
+    text-align: center;
+  }
+  .list span {
+    text-align: center;
+    color: white;
+    background-color: green;
+    width: 100%;
+    width: max-content;
+  }
+  #taskWindowContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  #task-window {
+    margin-top: 30px;
+    width: 80%;
+    min-height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    row-gap: 20px;
+    padding: 1rem;
+  }
+  #add-task {
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    width: max-content;
+    background-color: black;
+    color: white;
+  }
+  #tasks-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    row-gap: 1rem;
+  }
+  .task {
+    border: 1px solid white;
+    padding: 0.5rem 1rem;
+    display: flex;
+    position: relative;
+    width: 100%;
+  }
+  .task > span {
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    margin-right: 10px;
+  }
+  .task > span.marked {
+    background-color: green;
+    color: white;
+    text-align: center;
+  }
+  .task > label {
+    color: white;
+  }
+  .task > label.marked {
+    text-decoration: line-through;
+  }
+  .task > button {
+    position: absolute;
+    border: none;
+    background-color: transparent;
+    font-size: 0.65rem;
+    border: 1px solid white;
+    padding: 0.5rem;
+    justify-self: flex-end;
+    align-self: center;
+    right: 5px;
+    color: white;
+  }
+  .container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.493);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #timer {
+    background-color: white;
+    width: 90%;
+    min-height: 100px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+  }
+  #timer input {
+    width: 80%;
+    margin: 0 auto;
+    font-size: 1.7rem;
+  }
+  #timer #pomodoro-start {
+    min-width: 80px;
+    width: max-content;
+    font-size: 2rem;
+    padding: 0.25rem 2rem;
+    height: 50px;
+    margin: 0 auto;
+    transition: 0.5s;
+  }
+  #new-task-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.493);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #new-task-window {
+    background-color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+  }
+  #new-task-window span {
+    font-size: 2rem;
+  }
+  #new-task-window input {
+    font-size: 2rem;
+    text-indent: 10px;
+  }
+  #new-task-window div {
+    background-color: black;
+    color: white;
+    padding: 0.5rem 2rem;
+    width: max-content;
+    margin: 0 auto;
+    border-radius: 10px;
+  }
+}

@@ -93,7 +93,7 @@ function createUserImage(ele) {
   let userSection = document.createElement("div");
   userSection.classList.add("user-profile");
   let userImg = document.createElement("img");
-  userImg.src = "/src/images/logo.png";
+  userImg.src = "/src/images/man.png";
   userSection.append(userImg);
   ele.append(userSection);
 }
@@ -677,8 +677,8 @@ function createTimerModal(task) {
     }
   });
   timer.append(label);
-  timer.append(startBtn);
   timer.append(inpt);
+  timer.append(startBtn);
   timerContainer.append(timer);
   document.body.append(timerContainer);
 }
