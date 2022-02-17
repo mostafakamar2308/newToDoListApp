@@ -110,7 +110,7 @@
   }
   .options {
     display: flex;
-    width: 100px;
+    width: 120px;
     transform-origin: bottom center;
     transform: scale(0);
     flex-direction: column;
@@ -124,12 +124,18 @@
   }
   .options div {
     color: white;
+    width: max-content;
     margin-bottom: 5px;
     text-align: center;
   }
+  .options div > span {
+    color: white;
+    font-size: smaller;
+    line-height: 0%;
+  }
 
   .options div:active {
-    background-color: #ccc;
+    background-color: rgb(14, 240, 33);
   }
   .new-project {
     display: inline-block;

@@ -1,7 +1,7 @@
 let storage = window.localStorage,
   sectionObj;
-// import logos from "./images/logo.png";
-// import man from "./images/man.png";
+import logos from "./images/LogoMakr-00DE1M.png";
+import man from "./images/man.png";
 if (!storage.getItem("sectionObj")) {
   sectionObj = {
     Programming: {
@@ -76,6 +76,12 @@ document.addEventListener("click", function (event) {
   if (event.target.id === "new-task-container") {
     removeModal(document.querySelector("#new-task-container"));
   }
+  if (
+    !event.target.closest(".settings") &&
+    document.querySelector(".mark-complete")
+  ) {
+    removeModal(document.querySelector(".list"));
+  }
 });
 let openedSection = "";
 let openedProject = "";
@@ -89,8 +95,7 @@ let openedProject = "";
 })();
 function createLogo(ele) {
   let logo = document.createElement("img");
-  // logo.src = logos;
-  logo.src = "/dist/ab45eb1d42b1faaf3d12.png";
+  logo.src = "/dist/28aa6cd01b04cfae367b.png";
   logo.classList.add("logo");
   ele.append(logo);
 }
@@ -98,7 +103,6 @@ function createUserImage(ele) {
   let userSection = document.createElement("div");
   userSection.classList.add("user-profile");
   let userImg = document.createElement("img");
-  // userImg.src = man;
   userImg.src = "/dist/ab45eb1d42b1faaf3d12.png";
   userSection.append(userImg);
   ele.append(userSection);
@@ -341,6 +345,7 @@ function createProject(ele, projectSection, division) {
   if (project.parentNode.children[0].textContent === " ► Not Completed") {
     let settings = document.createElement("span");
     settings.textContent = "---";
+    settings.classList.add("settings");
     settings.addEventListener("click", function () {
       completeMenu(settings);
     });
@@ -387,12 +392,12 @@ function createAddList() {
   options.classList.add("options");
   let chooseSection = document.createElement("div");
   chooseSection.classList.add("add-menu-section");
-  chooseSection.textContent = "Section";
+  chooseSection.innerHTML = "<span> &#9658; </span> Section";
   chooseSection.addEventListener("click", showSectionModal);
   options.append(chooseSection);
 
   let chooseProject = document.createElement("div");
-  chooseProject.textContent = "Project";
+  chooseProject.innerHTML = " <span> &#9658; </span> Project ";
   chooseProject.classList.add("add-menu-project");
   chooseProject.addEventListener("click", addNewProject);
 
@@ -679,6 +684,7 @@ function createTimerModal(task) {
     if (workk == 1) {
       return;
     } else {
+      removeModal(document.querySelector("#pomodoro-number"));
       timerF(inpt.value, startBtn, task);
     }
   });
@@ -754,6 +760,9 @@ function markTaskInObject(ele, division) {
 }
 function timerF(num, ele, task) {
   workk = 1;
+  if (num == "") {
+    num = 1;
+  }
   let min = num * 25;
   let hours, minutes, s;
   hours = Math.floor(min / 60);
@@ -805,6 +814,7 @@ function completeMenu(ele) {
   container.classList.add("list");
   let markAsComplete = document.createElement("span");
   markAsComplete.textContent = "Mark As Complete";
+  markAsComplete.classList.add("mark-complete");
   markAsComplete.addEventListener("click", function () {
     moveCompletedProject(
       sectionObj[openedSection.split("-").join(" ")]["Not Done"],
@@ -812,7 +822,6 @@ function completeMenu(ele) {
     );
     let index = ele.parentNode.textContent.indexOf("---Mark As Complete");
     let hmmm = ele.parentNode.textContent.slice(0, index);
-    console.log(hmmm);
     markAllTasksInObj(hmmm);
 
     if (
