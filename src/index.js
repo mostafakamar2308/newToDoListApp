@@ -1,7 +1,5 @@
 let storage = window.localStorage,
   sectionObj;
-import logos from "./images/LogoMakr-00DE1M.png";
-import man from "./images/man.png";
 if (!storage.getItem("sectionObj")) {
   sectionObj = {
     Programming: {
