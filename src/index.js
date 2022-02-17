@@ -1,5 +1,7 @@
 let storage = window.localStorage,
   sectionObj;
+import lil from "/src/images/LogoMakr-00DE1M.png";
+import user from "/src/images/man.png";
 if (!storage.getItem("sectionObj")) {
   sectionObj = {
     Programming: {
@@ -93,7 +95,7 @@ let openedProject = "";
 })();
 function createLogo(ele) {
   let logo = document.createElement("img");
-  logo.src = "/dist/28aa6cd01b04cfae367b.png";
+  logo.src = lil;
   logo.classList.add("logo");
   ele.append(logo);
 }
@@ -101,7 +103,7 @@ function createUserImage(ele) {
   let userSection = document.createElement("div");
   userSection.classList.add("user-profile");
   let userImg = document.createElement("img");
-  userImg.src = "/dist/ab45eb1d42b1faaf3d12.png";
+  userImg.src = user;
   userSection.append(userImg);
   ele.append(userSection);
 }
