@@ -1,7 +1,7 @@
 let storage = window.localStorage,
   sectionObj;
-import logos from "./images/logo.png";
-import man from "./images/man.png";
+// import logos from "./images/logo.png";
+// import man from "./images/man.png";
 if (!storage.getItem("sectionObj")) {
   sectionObj = {
     Programming: {
@@ -56,10 +56,13 @@ if (!storage.getItem("sectionObj")) {
 }
 
 let colorIndex = 0;
+let menuuAppear = 0;
 
 document.addEventListener("click", function (event) {
   if (!event.target.closest(".add") && document.querySelector(".options")) {
-    closeModal(document.querySelector(".options"));
+    returnToStablePlusSign();
+    closeAddMenu();
+    menuuAppear = 0;
   }
   if (event.target.id === "modal-container") {
     closeModal(document.querySelector("#modal-container"));
@@ -86,7 +89,8 @@ let openedProject = "";
 })();
 function createLogo(ele) {
   let logo = document.createElement("img");
-  logo.src = logos;
+  // logo.src = logos;
+  logo.src = "/dist/ab45eb1d42b1faaf3d12.png";
   logo.classList.add("logo");
   ele.append(logo);
 }
@@ -94,7 +98,8 @@ function createUserImage(ele) {
   let userSection = document.createElement("div");
   userSection.classList.add("user-profile");
   let userImg = document.createElement("img");
-  userImg.src = man;
+  // userImg.src = man;
+  userImg.src = "/dist/ab45eb1d42b1faaf3d12.png";
   userSection.append(userImg);
   ele.append(userSection);
 }
@@ -376,19 +381,19 @@ function createAddSign(ele) {
   ele.append(addSign);
   addSign.addEventListener("click", showAdding);
 }
-function showAdding() {
-  document.querySelector(".options").style.display = "block";
-}
+
 function createAddList() {
   let options = document.createElement("div");
   options.classList.add("options");
   let chooseSection = document.createElement("div");
-  chooseSection.classList.add("add-section");
+  chooseSection.classList.add("add-menu-section");
   chooseSection.textContent = "Section";
+  chooseSection.addEventListener("click", showSectionModal);
   options.append(chooseSection);
 
   let chooseProject = document.createElement("div");
   chooseProject.textContent = "Project";
+  chooseProject.classList.add("add-menu-project");
   chooseProject.addEventListener("click", addNewProject);
 
   options.append(chooseProject);
@@ -840,4 +845,49 @@ function moveCompletedProject(obj, l) {
 }
 function removecompleteObject(property) {
   delete sectionObj[openedSection.split("-").join(" ")]["Not Done"][property];
+}
+function rotatePlusSign() {
+  gsap.to(".add-new", {
+    duration: 0.8,
+    rotateZ: 270,
+  });
+}
+
+function returnToStablePlusSign() {
+  gsap.to(".add-new", { duration: 0.8, rotateZ: 0 });
+}
+function closeAddMenu() {
+  gsap.to(".options", {
+    duration: 1,
+    scaleX: 0,
+    scaleY: 0,
+  });
+}
+function showAdding() {
+  if (menuuAppear == 0) {
+    rotatePlusSign();
+    gsap.to(".add", {
+      duration: 1,
+      backgroundColor: "#22a35e",
+      borderRadius: "40%",
+    });
+    gsap.to(".options", {
+      duration: 0.5,
+      scaleX: 1,
+    });
+    gsap.to(".options", {
+      duration: 0.5,
+      scaleY: 1,
+    });
+    moveItems();
+    menuuAppear = 1;
+  } else {
+    returnToStablePlusSign();
+    closeAddMenu();
+    menuuAppear = 0;
+  }
+}
+function moveItems() {
+  gsap.from(".add-menu-project", { duration: 0.5, y: 500 });
+  gsap.from(".add-menu-section", { duration: 0.8, y: 500 });
 }

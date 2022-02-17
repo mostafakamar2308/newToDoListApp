@@ -9,7 +9,10 @@
     --task-color-2: #fe9e41;
     --task-color-3: #f8c509;
     --task-color-4: #43a0ff;
-    --add-color: #25c06e;
+    --add-main-menu-color: #15f47d;
+    --add-plus-color: #12d66d;
+    --add-project-color: #bfce69;
+    --add-section-color: #fde181;
     --border-colors: #a1afa4d0;
   }
   body {
@@ -83,33 +86,48 @@
   .add {
     position: absolute;
     bottom: 10%;
-    right: 5vw;
+    right: 10vw;
     display: flex;
     flex-direction: column-reverse;
-    row-gap: 10px;
-    z-index: 9999;
-    width: fit-content;
-    height: fit-content;
+    justify-content: center;
+    align-items: center;
+    row-gap: 05px;
+    z-index: 999;
+    background-color: transparent !important;
+    height: 250;
+    width: 140;
+    padding: "20";
   }
   .add .add-new {
-    width: 80px;
-    height: 80px;
-    background-color: var(--add-color);
-    color: white;
-    font-size: 4em;
-    padding: 1rem;
+    width: 100px;
+    height: 100px;
+    background-color: var(--add-plus-color);
     border-radius: 50%;
-    line-height: 050%;
+    color: white;
+    text-align: center;
+    line-height: 90px;
+    font-size: 6rem;
   }
   .options {
-    display: none;
-    background-color: #eee;
-    padding: 0.5rem;
+    display: flex;
+    width: 100px;
+    transform-origin: bottom center;
+    transform: scale(0);
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100px;
+    overflow: hidden;
+    padding: 1rem;
+    border-radius: 20px;
+    background-color: var(--add-main-menu-color);
   }
   .options div {
-    background-color: transparent;
+    color: white;
     margin-bottom: 5px;
+    text-align: center;
   }
+
   .options div:active {
     background-color: #ccc;
   }
@@ -118,6 +136,7 @@
     width: max-content;
     padding: 0.75rem;
     margin-left: 0.5rem;
+    margin-top: 01rem;
     border-radius: 20px;
     background-color: black;
     color: white;
@@ -146,10 +165,12 @@
     font-size: 1.2rem;
     width: max-content;
   }
-  #newSection-modal input {
+  #newSection-modal input,
+  #nameOfTask {
+    margin: 0 auto;
     font-size: 2rem;
     text-indent: 0.5rem;
-    width: 100%;
+    width: 90%;
   }
   #newSection-modal btn {
     padding: 01rem;
@@ -274,37 +295,41 @@
   .task {
     border: 1px solid white;
     padding: 0.5rem 1rem;
-    display: flex;
-    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "mark text" "pomo pomo";
     width: 100%;
+    row-gap: 15px;
   }
   .task > span {
+    grid-area: mark;
     width: 30px;
     height: 30px;
     background-color: white;
+    color: white;
     margin-right: 10px;
+    text-align: center;
   }
   .task > span.marked {
     background-color: green;
-    color: white;
-    text-align: center;
   }
   .task > label {
+    grid-area: text;
     color: white;
+    width: max-content;
   }
   .task > label.marked {
     text-decoration: line-through;
   }
   .task > button {
-    position: absolute;
-    border: none;
+    grid-area: pomo;
+    width: 100%;
     background-color: transparent;
     font-size: 0.65rem;
     border: 1px solid white;
     padding: 0.5rem;
-    justify-self: flex-end;
     align-self: center;
-    right: 5px;
     color: white;
   }
   .container {
@@ -335,7 +360,7 @@
   #timer #pomodoro-start {
     min-width: 80px;
     width: max-content;
-    font-size: 2rem;
+    font-size: 32px;
     padding: 0.25rem 2rem;
     height: 50px;
     margin: 0 auto;
@@ -374,5 +399,17 @@
     width: max-content;
     margin: 0 auto;
     border-radius: 10px;
+  }
+  #projects-done-container,
+  #projects-not-done-container {
+    margin-top: 20px;
+  }
+  .not-lol,
+  .lol {
+    font-size: 32px;
+  }
+  .project-modal,
+  #modal-container {
+    z-index: 90000000;
   }
 }
