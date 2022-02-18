@@ -2,6 +2,8 @@ let storage = window.localStorage,
   sectionObj;
 import lil from "/src/images/LogoMakr-00DE1M.png";
 import user from "/src/images/man.png";
+import alarm from "/src/sounds/alarm.mp3";
+let alarmSound = new Audio(alarm);
 if (!storage.getItem("sectionObj")) {
   sectionObj = {
     Programming: {
@@ -787,7 +789,7 @@ function timerF(num, ele, task) {
   if (num == "") {
     num = 1;
   }
-  let min = num * 25;
+  let min = num;
   let hours, minutes, s;
   hours = Math.floor(min / 60);
   minutes = min - hours * 60;
@@ -822,6 +824,7 @@ function countDownF(s, m, h, ele, task) {
     if (myCounter === "00:00:00") {
       clearInterval(myInterval);
       ele.textContent = "Nice Work";
+      alarmSound.play();
     }
   }, 1000);
 }

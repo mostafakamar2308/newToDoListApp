@@ -123,6 +123,26 @@
     background-color: var(--add-main-menu-color);
     box-shadow: grey -1px -1px 10px 0;
   }
+  .Section-remove-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.479);
+  }
+  .remove-section {
+    border: none;
+    background-color: #12d66d;
+    color: white;
+    padding: 2rem 01rem;
+    width: 450px;
+    height: fit-content;
+    transition: 0.5s;
+    cursor: pointer;
+    font-size: 2rem;
+  }
   .options div {
     color: white;
     width: max-content;
