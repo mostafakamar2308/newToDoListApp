@@ -264,10 +264,7 @@ function createProjectsInProjectList(eleClicked, projectSection) {
         ) {
           removeModal(document.querySelector(".Not-Done"));
         }
-        console.log(
-          document.querySelector("#projects-not-done-container").lastChild
-            .tagName
-        );
+
         if (
           document.querySelector("#projects-not-done-container").lastChild
             .tagName !== "H3"
@@ -502,17 +499,13 @@ function createProjectModal() {
   let btn = document.createElement("div");
   btn.textContent = "Start New Project";
   btn.addEventListener("click", function h() {
-    document.querySelector(".not-lol").click();
-    createProject(
-      inpt.value,
-      document.querySelector("#projects-not-done-container"),
-      "Not Done"
-    );
     sectionObj[document.querySelector("h2").textContent]["Not Done"][
       inpt.value
     ] = {};
     storage.setItem("sectionObj", JSON.stringify(sectionObj));
-
+    console.log(openedSection);
+    document.querySelector(`#${openedSection}`).click();
+    document.querySelector(".not-lol").click();
     closeModal(document.querySelector(".project-modal"));
   });
   div.append(h3);
@@ -845,6 +838,17 @@ function completeMenu(ele) {
     storage.setItem("sectionObj", JSON.stringify(sectionObj));
   });
   container.append(markAsComplete);
+  let removeProject = document.createElement("span");
+  removeProject.textContent = "Remove Project";
+  removeProject.classList.add("remove-project");
+  removeProject.addEventListener("click", function () {
+    delete sectionObj[
+      openedSection.split("-").join(" ")
+    ]["Not Done"][removeProject.parentNode.parentNode.parentNode.id.split("-").join(" ")];
+    document.querySelector(`#${openedSection}`).click();
+    document.querySelector(".not-lol").click();
+  });
+  container.append(removeProject);
   ele.append(container);
 }
 function moveCompletedProject(obj, l) {

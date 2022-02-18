@@ -86,9 +86,14 @@
     align-items: center;
     height: 100px;
     overflow: hidden;
-    padding: 1rem;
+    padding: 0.5rem 0;
     border-radius: 20px;
     background-color: var(--add-main-menu-color);
+    box-shadow: grey -1px -1px 10px 0;
+  }
+  .options div {
+    padding: 0 1rem;
+    transition: 0.3s;
   }
   .options div,
   .options div span {
@@ -97,6 +102,9 @@
     margin-bottom: 5px;
     text-align: center;
     cursor: pointer;
+  }
+  .options div:hover {
+    background-color: var(--add-project-color);
   }
   .categories-list {
     margin-top: 0.5rem;
@@ -178,26 +186,37 @@
     cursor: pointer;
   }
   .list {
-    z-index: 9999;
+    z-index: 999999;
     position: absolute;
     bottom: -100%;
     margin-left: -420%;
     width: max-content;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--add-plus-color);
+    border-radius: 20px;
   }
   .list span {
+    z-index: 999999;
     text-align: center;
     color: white;
     padding: 1rem;
     background-color: var(--add-plus-color);
     width: 100%;
-    width: max-content;
     transition: 0.5s;
   }
   .list span:hover {
     background-color: white;
-    border: 2px solid var(--add-plus-color);
     color: var(--add-plus-color);
+  }
+  .mark-complete {
+    border-radius: 20px 20px 0 0;
+  }
+  .remove-project {
+    border-radius: 0 0 20px 20px;
+    z-index: 999999;
   }
   #modal-container {
     position: absolute;

@@ -121,6 +121,7 @@
     padding: 1rem;
     border-radius: 20px;
     background-color: var(--add-main-menu-color);
+    box-shadow: grey -1px -1px 10px 0;
   }
   .options div {
     color: white;
