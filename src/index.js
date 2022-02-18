@@ -825,6 +825,16 @@ function countDownF(s, m, h, ele, task) {
       clearInterval(myInterval);
       ele.textContent = "Nice Work";
       alarmSound.play();
+      fetch("https://type.fit/api/quotes")
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          let quoteIndex = Math.floor(Math.random() * 1600);
+          ele.textContent = data[quoteIndex].text;
+          ele.classList.add("finished-studying");
+          removeModal(ele.parentNode.firstChild);
+        });
     }
   }, 1000);
 }

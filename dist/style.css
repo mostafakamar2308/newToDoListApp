@@ -167,6 +167,35 @@
   .lol {
     cursor: pointer;
   }
+  #timer #pomodoro-start {
+    min-width: 80px;
+    width: max-content;
+    font-size: 32px;
+    padding: 0.25rem 2rem;
+    height: 50px;
+    margin: 0 auto;
+    transition: 0.3s;
+    color: white;
+    border: #12d66d 1px solid;
+    background-color: #12d66d;
+    cursor: pointer;
+  }
+  #timer #pomodoro-start:hover {
+    color: #12d66d;
+    border: #12d66d 1px solid;
+    background-color: white;
+  }
+  .finished-studying {
+    width: 100% !important;
+    word-wrap: break-word;
+    pointer-events: none !important;
+    color: #12d66d !important;
+    border: none !important;
+    background-color: white !important;
+    padding: 0 !important;
+    height: fit-content !important;
+    transition: none;
+  }
   .project {
     border-radius: 10px;
     width: 80vw;
@@ -429,15 +458,7 @@
     margin: 0 auto;
     font-size: 1.7rem;
   }
-  #timer #pomodoro-start {
-    min-width: 80px;
-    width: max-content;
-    font-size: 32px;
-    padding: 0.25rem 2rem;
-    height: 50px;
-    margin: 0 auto;
-    transition: 0.5s;
-  }
+
   #new-task-container {
     position: absolute;
     top: 0;
