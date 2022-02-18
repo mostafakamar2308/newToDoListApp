@@ -789,7 +789,7 @@ function timerF(num, ele, task) {
   if (num == "") {
     num = 1;
   }
-  let min = num;
+  let min = num * 25;
   let hours, minutes, s;
   hours = Math.floor(min / 60);
   minutes = min - hours * 60;
