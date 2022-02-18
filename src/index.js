@@ -85,6 +85,8 @@ document.addEventListener("click", function (event) {
 });
 let openedSection = "";
 let openedProject = "";
+let startTime,
+  clickTime = 750;
 
 (function createHeader() {
   //creating the header for the site
@@ -139,6 +141,34 @@ function createSectionsDivs(ele, item) {
   chooseColor(newProj);
   ele.append(newProj);
   newProj.addEventListener("click", createProjectList, newProj.path);
+  newProj.addEventListener("mousedown", function () {
+    startTime = new Date();
+  });
+  newProj.addEventListener("mouseup", function () {
+    let elapsedTime = new Date() - startTime;
+    if (elapsedTime >= clickTime) {
+      console.log(`You Holded Me for${elapsedTime}ms`);
+      removeSectionMenu(newProj);
+    }
+  });
+}
+function removeSectionMenu(ele) {
+  let container = document.createElement("div");
+  container.classList.add("Section-remove-container");
+  document.body.append(container);
+  container.addEventListener("click", function () {
+    removeModal(container);
+  });
+  let btn = document.createElement("button");
+  btn.classList.add("remove-section");
+  btn.textContent = "Remove The Whole Section";
+  btn.addEventListener("click", function () {
+    delete sectionObj[ele.textContent];
+    storage.setItem("sectionObj", JSON.stringify(sectionObj));
+    removeModal(ele);
+    document.querySelector(".categories-list").firstChild.click();
+  });
+  container.appendChild(btn);
 }
 function addsectionDiv(ele) {
   let addSection = document.createElement("div");
@@ -201,6 +231,7 @@ function scrollOrNo(el, dimension) {
 }
 function createProjectList(eleClicked) {
   openedSection = eleClicked.path[0].id;
+  let ele;
   if (document.querySelector("#project-section")) {
     document
       .querySelector("#project-section")
@@ -845,6 +876,7 @@ function completeMenu(ele) {
     delete sectionObj[
       openedSection.split("-").join(" ")
     ]["Not Done"][removeProject.parentNode.parentNode.parentNode.id.split("-").join(" ")];
+    storage.setItem("sectionObj", JSON.stringify(sectionObj));
     document.querySelector(`#${openedSection}`).click();
     document.querySelector(".not-lol").click();
   });
