@@ -142,7 +142,7 @@ function createSectionsDivs(ele, item) {
   newProj.setAttribute("id", `${newId}`);
   chooseColor(newProj);
   ele.append(newProj);
-  newProj.addEventListener("click", createProjectList, newProj.path);
+  newProj.addEventListener("click", createProjectList, newProj);
   newProj.addEventListener("mousedown", function () {
     startTime = new Date();
   });
@@ -232,7 +232,7 @@ function scrollOrNo(el, dimension) {
   }
 }
 function createProjectList(eleClicked) {
-  openedSection = eleClicked.path[0].id;
+  openedSection = eleClicked.target.id;
   let ele;
   if (document.querySelector("#project-section")) {
     document
@@ -244,7 +244,7 @@ function createProjectList(eleClicked) {
   document.querySelector("main").append(projectSection);
 
   let projectTitle = document.createElement("h2");
-  projectTitle.textContent = `${eleClicked.path[0].textContent}`;
+  projectTitle.textContent = `${eleClicked.target.textContent}`;
   projectSection.append(projectTitle);
   createProjectsInProjectList(eleClicked, projectSection);
   addNewProjectDiv(projectSection);
@@ -256,7 +256,7 @@ function createProjectsInProjectList(eleClicked, projectSection) {
   let notDone = document.createElement("section");
   notDone.id = "projects-not-done-container";
   let notDoneTitle = document.createElement("h3");
-  if (!sectionObj[eleClicked.path[0].textContent].hasOwnProperty("Not Done")) {
+  if (!sectionObj[eleClicked.target.textContent].hasOwnProperty("Not Done")) {
     console.log(sectionObj);
   }
 
@@ -272,7 +272,7 @@ function createProjectsInProjectList(eleClicked, projectSection) {
       ) {
         gsap.to(".not-lol", { duration: 0.3, rotationZ: 90 });
         if (
-          Object.keys(sectionObj[eleClicked.path[0].textContent]["Not Done"])
+          Object.keys(sectionObj[eleClicked.target.textContent]["Not Done"])
             .length === 0
         ) {
           console.log("works");
@@ -281,7 +281,7 @@ function createProjectsInProjectList(eleClicked, projectSection) {
           document.querySelector("#projects-not-done-container").append(no);
         } else {
           Object.keys(
-            sectionObj[eleClicked.path[0].textContent]["Not Done"]
+            sectionObj[eleClicked.target.textContent]["Not Done"]
           ).forEach((ele) => {
             createProject(ele, notDone, "Not Done");
           });
@@ -318,8 +318,8 @@ function createProjectsInProjectList(eleClicked, projectSection) {
   DoneTitle.innerHTML =
     "<div class='lol' style='display:inline-block; transform: rotate(0deg)'> &#9658; </div>Completed";
   Done.append(DoneTitle);
-  if (!sectionObj[eleClicked.path[0].textContent].hasOwnProperty("Done")) {
-    sectionObj[eleClicked.path[0].textContent]["Done"] = {};
+  if (!sectionObj[eleClicked.target.textContent].hasOwnProperty("Done")) {
+    sectionObj[eleClicked.target.textContent]["Done"] = {};
   }
 
   Done.addEventListener("click", function (event) {
@@ -330,7 +330,7 @@ function createProjectsInProjectList(eleClicked, projectSection) {
       ) {
         gsap.to(".lol", { duration: 0.3, rotationZ: 90 });
         if (
-          Object.keys(sectionObj[eleClicked.path[0].textContent]["Done"])
+          Object.keys(sectionObj[eleClicked.target.textContent]["Done"])
             .length === 0
         ) {
           let no = document.createElement("div");
@@ -338,7 +338,7 @@ function createProjectsInProjectList(eleClicked, projectSection) {
           document.querySelector("#projects-done-container").append(no);
         } else {
           Object.keys(
-            sectionObj[eleClicked.path[0].textContent]["Done"]
+            sectionObj[eleClicked.target.textContent]["Done"]
           ).forEach((ele) => {
             createProject(ele, Done, "Done");
           });
