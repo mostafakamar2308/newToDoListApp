@@ -5,7 +5,8 @@ import user from "/src/images/man.png";
 import alarm from "/src/sounds/alarm.mp3";
 import facebookImg from "/src/images/facebook.png";
 import googleImg from "/src/images/google.png";
-import src from "gsap/src";
+import { googleSignIn } from "/src/firebase.js";
+import { googleProvider } from "./firebase";
 let alarmSound = new Audio(alarm);
 if (!storage.getItem("sectionObj")) {
   sectionObj = {
@@ -973,6 +974,9 @@ function createLoginIcons(container) {
     google.src = googleImg;
     google.id = "google-login";
     container.append(google);
+    google.addEventListener("click", function () {
+      googleSignIn(googleProvider);
+    });
     animateLoginIcons();
   }
 }
