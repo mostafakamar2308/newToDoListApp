@@ -966,7 +966,7 @@ function createLoginIcons(container) {
     google.src = googleImg;
     google.id = "google-login";
     container.append(google);
-    google.addEventListener("click", function () {
+    google.addEventListener("click", () => {
       googleSignIn(googleProvider);
     });
     animateLoginIcons();
