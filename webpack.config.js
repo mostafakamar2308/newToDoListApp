@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  entry: "/src/index.js",
+  entry: ["/src/index.js", "/src/firebase.js"],
   output: {
     filename: "main.js",
     publicPath: "",

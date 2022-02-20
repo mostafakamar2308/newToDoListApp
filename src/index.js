@@ -3,6 +3,9 @@ let storage = window.localStorage,
 import lil from "/src/images/LogoMakr-00DE1M.png";
 import user from "/src/images/man.png";
 import alarm from "/src/sounds/alarm.mp3";
+import facebookImg from "/src/images/facebook.png";
+import googleImg from "/src/images/google.png";
+import src from "gsap/src";
 let alarmSound = new Audio(alarm);
 if (!storage.getItem("sectionObj")) {
   sectionObj = {
@@ -110,6 +113,9 @@ function createUserImage(ele) {
   userImg.src = user;
   userSection.append(userImg);
   ele.append(userSection);
+  userImg.addEventListener("click", function () {
+    createLoginIcons(userSection);
+  });
 }
 
 //create the main contnet
@@ -948,4 +954,49 @@ function showAdding() {
 function moveItems() {
   gsap.from(".add-menu-project", { duration: 0.5, y: 500 });
   gsap.from(".add-menu-section", { duration: 0.8, y: 500 });
+}
+
+function createLoginIcons(container) {
+  if (document.querySelector("#facebook-login")) {
+    removeModal(document.querySelector("#facebook-login"));
+  } else {
+    let facebook = document.createElement("img");
+    facebook.src = facebookImg;
+    facebook.id = "facebook-login";
+    container.append(facebook);
+  }
+  if (document.querySelector("#google-login")) {
+    removeModal(document.querySelector("#google-login"));
+  } else {
+    let google = document.createElement("img");
+
+    google.src = googleImg;
+    google.id = "google-login";
+    container.append(google);
+    animateLoginIcons();
+  }
+}
+function animateLoginIcons() {
+  let clientWidth = window.innerWidth;
+  if (clientWidth > 425) {
+    gsap.from("#facebook-login", { duration: 0.5, y: 500, opacity: 0 });
+    gsap.to("#facebook-login", { duration: 0.5, opacity: 0.8 });
+    gsap.from("#google-login", {
+      duration: 0.8,
+      y: 700,
+      opacity: 0,
+      delay: 0.25,
+    });
+    gsap.to("#google-login", { duration: 0.8, opacity: 0.8, delay: 0.25 });
+  } else {
+    gsap.from("#facebook-login", { duration: 0.5, x: 500, opacity: 0 });
+    gsap.to("#facebook-login", { duration: 0.5, opacity: 0.8 });
+    gsap.from("#google-login", {
+      duration: 0.8,
+      x: 750,
+      opacity: 0,
+      delay: 0.25,
+    });
+    gsap.to("#google-login", { duration: 0.8, opacity: 0.8, delay: 0.25 });
+  }
 }

@@ -496,4 +496,29 @@
     border-radius: 10px;
     cursor: pointer;
   }
+  .user-profile {
+    height: max-content;
+    display: flex;
+    flex-direction: column-reverse;
+    row-gap: 5px;
+    align-items: center;
+  }
+  .user-profile > * {
+    cursor: pointer;
+  }
+  .user-profile:first-child {
+    z-index: 5;
+  }
+  #facebook-login,
+  #google-login {
+    z-index: 1;
+    width: 80%;
+    margin-bottom: 10px;
+    opacity: 0;
+    transition: 0.2s;
+  }
+  #facebook-login:hover,
+  #google-login:hover {
+    opacity: 1;
+  }
 }

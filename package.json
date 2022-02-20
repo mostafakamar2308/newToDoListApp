@@ -24,11 +24,10 @@
   "homepage": "https://github.com/mostafakamar2308/newToDoListApp#readme",
   "devDependencies": {
     "file-loader": "^6.2.0",
+    "firebase": "^9.6.7",
     "gsap": "^3.9.1",
     "webpack": "^5.68.0",
     "webpack-cli": "^4.9.2"
   },
-  "dependencies": {
-    "moment": "^2.29.1"
-  }
+  "dependencies": {}
 }
