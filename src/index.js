@@ -5,7 +5,7 @@ import user from "/src/images/man.png";
 import alarm from "/src/sounds/alarm.mp3";
 import facebookImg from "/src/images/facebook.png";
 import googleImg from "/src/images/google.png";
-import { googleSignIn } from "/src/firebase.js";
+import { googleSignIn, changePic } from "/src/firebase.js";
 import { googleProvider } from "./firebase";
 let alarmSound = new Audio(alarm);
 if (!storage.getItem("sectionObj")) {
@@ -958,14 +958,6 @@ function moveItems() {
 }
 
 function createLoginIcons(container) {
-  if (document.querySelector("#facebook-login")) {
-    removeModal(document.querySelector("#facebook-login"));
-  } else {
-    let facebook = document.createElement("img");
-    facebook.src = facebookImg;
-    facebook.id = "facebook-login";
-    container.append(facebook);
-  }
   if (document.querySelector("#google-login")) {
     removeModal(document.querySelector("#google-login"));
   } else {

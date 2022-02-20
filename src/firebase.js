@@ -25,6 +25,12 @@ export function googleSignIn(ele) {
     .auth()
     .signInWithPopup(ele)
     .then((res) => {
-      return res;
+      changePic(res.user);
+    })
+    .catch((e) => {
+      console.log(e);
     });
+}
+export function changePic(user) {
+  document.querySelector(".user-profile").firstChild.src = user.photoURL;
 }
