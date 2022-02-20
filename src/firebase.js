@@ -25,6 +25,6 @@ export function googleSignIn(ele) {
     .auth()
     .signInWithPopup(ele)
     .then((res) => {
-      console.log(res);
+      return res;
     });
 }
