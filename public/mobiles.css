@@ -99,13 +99,13 @@
     padding: "20";
   }
   .add .add-new {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     background-color: var(--add-plus-color);
     border-radius: 50%;
     color: white;
     text-align: center;
-    line-height: 90px;
+    line-height: 75px;
     font-size: 6rem;
   }
   .options {
