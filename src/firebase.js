@@ -1,6 +1,9 @@
 // Import the functions you need from the SDKs you need
+import { async } from "@firebase/util";
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import logoutIcon from "/src/images/logout.png";
+import { createUserImage } from "/src/index";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -32,5 +35,52 @@ export function googleSignIn(ele) {
     });
 }
 export function changePic(user) {
-  document.querySelector(".user-profile").firstChild.src = user.photoURL;
+  let userImg = document.createElement("img");
+  userImg.id = "user";
+  userImg.setAttribute("referrerpolicy", "no-referrer");
+  userImg.src = user.photoURL;
+  document.querySelector(".user-profile").appendChild(userImg);
+  userImg.addEventListener("click", function () {
+    logoutbtn();
+  });
+  hideAllIcons();
+}
+export function hideAllIcons() {
+  document
+    .querySelector(".user-profile")
+    .firstChild.parentNode.removeChild(
+      document.querySelector(".user-profile").firstChild
+    );
+  document
+    .querySelector("#google-login")
+    .parentNode.removeChild(document.querySelector("#google-login"));
+}
+export function logoutbtn() {
+  if (!document.querySelector(".logout")) {
+    let exit = document.createElement("img");
+    exit.src = logoutIcon;
+    exit.classList.add("logout");
+    document.querySelector(".user-profile").append(exit);
+    let clientWidth = window.innerWidth;
+    if (clientWidth < 425) {
+      gsap.from(".logout", { duration: 0.8, x: 800 });
+    } else {
+      gsap.from(".logout", { duration: 0.8, y: 800 });
+    }
+    exit.addEventListener("click", function () {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          document
+            .querySelector(".user-profile")
+            .parentNode.removeChild(document.querySelector(".user-profile"));
+          createUserImage(document.querySelector("header"));
+        });
+    });
+  } else {
+    document
+      .querySelector(".logout")
+      .parentNode.removeChild(document.querySelector(".logout"));
+  }
 }

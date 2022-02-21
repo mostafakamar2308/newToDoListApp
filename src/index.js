@@ -3,9 +3,8 @@ let storage = window.localStorage,
 import lil from "/src/images/LogoMakr-00DE1M.png";
 import user from "/src/images/man.png";
 import alarm from "/src/sounds/alarm.mp3";
-import facebookImg from "/src/images/facebook.png";
 import googleImg from "/src/images/google.png";
-import { googleSignIn, changePic } from "/src/firebase.js";
+import { googleSignIn, changePic, hideAllIcons } from "/src/firebase.js";
 import { googleProvider } from "./firebase";
 let alarmSound = new Audio(alarm);
 if (!storage.getItem("sectionObj")) {
@@ -107,7 +106,7 @@ function createLogo(ele) {
   logo.classList.add("logo");
   ele.append(logo);
 }
-function createUserImage(ele) {
+export function createUserImage(ele) {
   let userSection = document.createElement("div");
   userSection.classList.add("user-profile");
   let userImg = document.createElement("img");
@@ -972,27 +971,22 @@ function createLoginIcons(container) {
     animateLoginIcons();
   }
 }
+
 function animateLoginIcons() {
   let clientWidth = window.innerWidth;
   if (clientWidth > 425) {
-    gsap.from("#facebook-login", { duration: 0.5, y: 500, opacity: 0 });
-    gsap.to("#facebook-login", { duration: 0.5, opacity: 0.8 });
     gsap.from("#google-login", {
-      duration: 0.8,
+      duration: 0.5,
       y: 700,
       opacity: 0,
-      delay: 0.25,
     });
-    gsap.to("#google-login", { duration: 0.8, opacity: 0.8, delay: 0.25 });
+    gsap.to("#google-login", { duration: 0.8, opacity: 0.8 });
   } else {
-    gsap.from("#facebook-login", { duration: 0.5, x: 500, opacity: 0 });
-    gsap.to("#facebook-login", { duration: 0.5, opacity: 0.8 });
     gsap.from("#google-login", {
-      duration: 0.8,
+      duration: 0.5,
       x: 750,
       opacity: 0,
-      delay: 0.25,
     });
-    gsap.to("#google-login", { duration: 0.8, opacity: 0.8, delay: 0.25 });
+    gsap.to("#google-login", { duration: 0.8, opacity: 0.8 });
   }
 }
