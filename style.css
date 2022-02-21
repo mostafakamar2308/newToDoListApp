@@ -521,4 +521,13 @@
   #google-login:hover {
     opacity: 1;
   }
+  #user {
+    border-radius: 50%;
+    width: 80%;
+    height: auto;
+    border: 1px solid var(--border-colors);
+  }
+  .logout {
+    width: 60% !important;
+  }
 }
