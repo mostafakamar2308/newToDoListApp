@@ -1,64 +1,29 @@
 let storage = window.localStorage,
-  sectionObj;
+  sectionObj = {};
 import lil from "/src/images/LogoMakr-00DE1M.png";
 import user from "/src/images/man.png";
 import alarm from "/src/sounds/alarm.mp3";
 import googleImg from "/src/images/google.png";
-import { googleSignIn, changePic, hideAllIcons } from "/src/firebase.js";
+import {
+  googleSignIn,
+  changePic,
+  hideAllIcons,
+  DataForGuests,
+} from "/src/firebase.js";
 import { googleProvider } from "./firebase";
 let alarmSound = new Audio(alarm);
-if (!storage.getItem("sectionObj")) {
-  sectionObj = {
-    Programming: {
-      "Not Done": {
-        "Productive Hero": {
-          "Make The app": {},
-          "Publish the app": {},
-          "Make Money": {},
-          "Marry ?": {},
-        },
-        "Social Media Limiting app": {
-          "Make The app": {},
-          "Publish the app": {},
-          "Make Money": {},
-          "Marry ?": {},
-        },
-      },
-      Done: {},
-    },
-    "Medical School": {
-      "Not Done": {
-        CVS: { Anatomy: {}, physiology: {}, Pharmacology: {} },
-        CNS: { Anatomy: {}, physiology: {}, Pathology: {} },
-      },
-      Done: {},
-    },
-    Home: {
-      "Not Done": {
-        "clean Bedroom": {
-          "Make the bed": {},
-          "Clean your desk": {},
-          "Organize Your books": {},
-        },
-        cook: { "get Ingredients": {}, "make Fire": {} },
-      },
-      Done: {},
-    },
-    Personal: {
-      "Not Done": {
-        Diary: { "10/2": {}, "11/2": {} },
-        Family: { "Talk to Sister": {}, "Get mother from Grandmother": {} },
-        Training: { "Leg Day": {}, "10KM Run": {} },
-        Friends: { "Talk to Khattab": {} },
-      },
-      Done: {},
-    },
-  };
-  storage.setItem("sectionObj", JSON.stringify(sectionObj));
-} else {
-  sectionObj = JSON.parse(storage.getItem("sectionObj"));
-  console.log(sectionObj);
-}
+await DataForGuests(sectionObj).then((res) => {
+  sectionObj = res;
+  storage.setItem("sectionObj", JSON.stringify(res));
+});
+
+// if (!storage.getItem("sectionObj") || storage.getItem("sectionObj") == {}) {
+//   console.log("didn't find so I created");
+//   console.log(sectionObj);
+// } else {
+//   sectionObj = JSON.parse(storage.getItem("sectionObj"));
+//   console.log(sectionObj);
+// }
 
 let colorIndex = 0;
 let menuuAppear = 0;
@@ -990,3 +955,5 @@ function animateLoginIcons() {
     gsap.to("#google-login", { duration: 0.8, opacity: 0.8 });
   }
 }
+
+let testObj = {};

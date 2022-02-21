@@ -1,14 +1,16 @@
 // Import the functions you need from the SDKs you need
-import { async } from "@firebase/util";
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDoc,
+  getDocs,
+} from "firebase/firestore";
+
 import logoutIcon from "/src/images/logout.png";
 import { createUserImage } from "/src/index";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDXMdN6Lmp-mM-jJBiEmNS4CZ6XJkLr7CU",
   authDomain: "productive-hero.firebaseapp.com",
@@ -20,7 +22,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
 export function googleSignIn(ele) {
@@ -83,4 +85,17 @@ export function logoutbtn() {
       .querySelector(".logout")
       .parentNode.removeChild(document.querySelector(".logout"));
   }
+}
+
+const db = getFirestore();
+
+export async function DataForGuests(mainObj) {
+  console.log(mainObj);
+  var defaultUser = await getDocs(collection(db, "default-user"));
+  mainObj = {};
+  defaultUser.forEach((doc) => {
+    mainObj[doc.id] = doc.data();
+  });
+  console.log(mainObj);
+  return mainObj;
 }
