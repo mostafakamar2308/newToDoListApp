@@ -1,29 +1,45 @@
-let storage = window.localStorage,
-  sectionObj = {};
+let storage = window.localStorage;
 import lil from "/src/images/LogoMakr-00DE1M.png";
-import user from "/src/images/man.png";
+import userIcon from "/src/images/man.png";
 import alarm from "/src/sounds/alarm.mp3";
 import googleImg from "/src/images/google.png";
-import {
-  googleSignIn,
-  changePic,
-  hideAllIcons,
-  DataForGuests,
-} from "/src/firebase.js";
-import { googleProvider } from "./firebase";
-let alarmSound = new Audio(alarm);
-await DataForGuests(sectionObj).then((res) => {
-  sectionObj = res;
-  storage.setItem("sectionObj", JSON.stringify(res));
-});
+import logoutIcon from "/src/images/logout.png";
+import { async } from "@firebase/util";
+import { initializeApp } from "firebase/app";
 
-// if (!storage.getItem("sectionObj") || storage.getItem("sectionObj") == {}) {
-//   console.log("didn't find so I created");
-//   console.log(sectionObj);
-// } else {
-//   sectionObj = JSON.parse(storage.getItem("sectionObj"));
-//   console.log(sectionObj);
-// }
+const firebaseConfig = {
+  apiKey: "AIzaSyDXMdN6Lmp-mM-jJBiEmNS4CZ6XJkLr7CU",
+  authDomain: "productive-hero.firebaseapp.com",
+  projectId: "productive-hero",
+  storageBucket: "productive-hero.appspot.com",
+  messagingSenderId: "496986319620",
+  appId: "1:496986319620:web:94f446497484b1c2193e51",
+  measurementId: "G-N31HS81RL1",
+};
+initializeApp(firebaseConfig);
+let user;
+const auth = getAuth();
+const db = getFirestore();
+let mainObject = {};
+
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut,
+} from "firebase/auth";
+import {
+  getFirestore,
+  collection,
+  doc,
+  setDoc,
+  getDoc,
+  getDocs,
+  Firestore,
+} from "firebase/firestore";
+
+let alarmSound = new Audio(alarm);
+let sectionObj = await DataForGuests(mainObject);
 
 let colorIndex = 0;
 let menuuAppear = 0;
@@ -53,11 +69,11 @@ document.addEventListener("click", function (event) {
     removeModal(document.querySelector(".list"));
   }
 });
+
 let openedSection = "";
 let openedProject = "";
 let startTime,
   clickTime = 750;
-
 (function createHeader() {
   //creating the header for the site
   let header = document.createElement("header");
@@ -71,11 +87,11 @@ function createLogo(ele) {
   logo.classList.add("logo");
   ele.append(logo);
 }
-export function createUserImage(ele) {
+function createUserImage(ele) {
   let userSection = document.createElement("div");
   userSection.classList.add("user-profile");
   let userImg = document.createElement("img");
-  userImg.src = user;
+  userImg.src = userIcon;
   userSection.append(userImg);
   ele.append(userSection);
   userImg.addEventListener("click", function () {
@@ -956,4 +972,99 @@ function animateLoginIcons() {
   }
 }
 
-let testObj = {};
+export function logoutbtn() {
+  if (!document.querySelector(".logout")) {
+    let exit = document.createElement("img");
+    exit.src = logoutIcon;
+    exit.classList.add("logout");
+    document.querySelector(".user-profile").append(exit);
+    let clientWidth = window.innerWidth;
+    if (clientWidth < 425) {
+      gsap.from(".logout", { duration: 0.8, x: 800 });
+    } else {
+      gsap.from(".logout", { duration: 0.8, y: 800 });
+    }
+    exit.addEventListener("click", function () {
+      quit();
+    });
+  } else {
+    document
+      .querySelector(".logout")
+      .parentNode.removeChild(document.querySelector(".logout"));
+  }
+}
+
+const googleProvider = new GoogleAuthProvider();
+function googleSignIn() {
+  signInWithPopup(auth, googleProvider).then((result) => {
+    user = result.user.uid;
+    changePic(result.user);
+    getUserData(user, mainObject);
+  });
+}
+
+function changePic(user) {
+  let userImg = document.createElement("img");
+  userImg.id = "user";
+  userImg.setAttribute("referrerpolicy", "no-referrer");
+  userImg.src = user.photoURL;
+  document.querySelector(".user-profile").appendChild(userImg);
+  userImg.addEventListener("click", function () {
+    logoutbtn();
+  });
+  hideAllIcons();
+}
+function hideAllIcons() {
+  document
+    .querySelector(".user-profile")
+    .firstChild.parentNode.removeChild(
+      document.querySelector(".user-profile").firstChild
+    );
+  document
+    .querySelector("#google-login")
+    .parentNode.removeChild(document.querySelector("#google-login"));
+}
+
+function quit() {
+  signOut(auth).then(() => {
+    document
+      .querySelector(".user-profile")
+      .parentNode.removeChild(document.querySelector(".user-profile"));
+    createUserImage(document.querySelector("header"));
+  });
+  DataForGuests(mainObject);
+}
+
+async function DataForGuests(mainObj) {
+  var defaultUser = await getDocs(collection(db, "default-user"));
+  mainObj = {};
+  defaultUser.forEach((doc) => {
+    mainObj[doc.id] = doc.data();
+  });
+  return mainObj;
+}
+
+async function getUserData(uid, mainObj) {
+  const h = await DataForGuests(mainObj);
+  await getDoc(doc(db, "Users", uid))
+    .then((res) => {
+      if (Object.keys(res.data()).length == 0) {
+        setDoc(doc(db, "Users", uid), h);
+        mainObj = h;
+      } else {
+        mainObj = res.data();
+        console.log(mainObj);
+        sectionObj = mainObj;
+      }
+    })
+    .then(() => {
+      reloadAfterLogin();
+    });
+}
+
+function reloadAfterLogin() {
+  document
+    .querySelector("main")
+    .parentNode.removeChild(document.querySelector("main"));
+  createMainContent();
+}
