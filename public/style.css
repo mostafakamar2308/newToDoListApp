@@ -53,7 +53,7 @@
   }
   .add {
     position: absolute;
-    bottom: 5%;
+    bottom: 10%;
     right: 5vw;
     display: flex;
     flex-direction: column-reverse;

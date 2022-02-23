@@ -85,7 +85,7 @@
   }
   .add {
     position: absolute;
-    bottom: 10%;
+    bottom: 20%;
     right: 10vw;
     display: flex;
     flex-direction: column-reverse;
