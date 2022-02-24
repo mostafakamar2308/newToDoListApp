@@ -14,6 +14,8 @@
     --add-project-color: #bfce69;
     --add-section-color: #fde181;
     --border-colors: #a1afa4d0;
+    /* --dark-mode-header: rgb(48, 43, 43);
+    --dark-mode-main: rgb(70, 62, 62); */
   }
   body {
     min-height: 100vh;
@@ -22,6 +24,7 @@
     padding: 0.25rem;
     position: relative;
   }
+
   main {
     position: relative;
     height: 100vh;
