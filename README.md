@@ -10,6 +10,4 @@
     4. Firestore database
     5. Firebase authentication
 
-## Live version:
-
-    <a href="https://productive-hero.web.app/"> Press Me </a>
+## Live version at this : <a href="https://productive-hero.web.app/">Press Me</a>
