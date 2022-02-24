@@ -40,16 +40,23 @@ import {
 
 let alarmSound = new Audio(alarm);
 let sectionObj;
-if (storage.getItem("sectionObj")) {
-  sectionObj = JSON.parse(storage.getItem("sectionObj"));
-} else {
-  sectionObj = await DataForGuests(mainObject).then(() => {
-    storage.setItem("sectionObj", JSON.stringify(sectionObj));
-  });
-}
-
 let colorIndex = 0;
 let menuuAppear = 0;
+let openedSection = "";
+let openedProject = "";
+let startTime,
+  clickTime = 750;
+if (storage.getItem("sectionObj")) {
+  sectionObj = JSON.parse(storage.getItem("sectionObj"));
+  console.log(sectionObj);
+  createHeader();
+  createMainContent();
+} else {
+  sectionObj = await DataForGuests(mainObject);
+  createHeader();
+  createMainContent();
+  storage.setItem("sectionObj", JSON.stringify(sectionObj));
+}
 
 document.addEventListener("click", function (event) {
   if (!event.target.closest(".add") && document.querySelector(".options")) {
@@ -77,17 +84,13 @@ document.addEventListener("click", function (event) {
   }
 });
 
-let openedSection = "";
-let openedProject = "";
-let startTime,
-  clickTime = 750;
-(function createHeader() {
+function createHeader() {
   //creating the header for the site
   let header = document.createElement("header");
   document.body.append(header);
   createLogo(header);
   createUserImage(header);
-})();
+}
 function createLogo(ele) {
   let logo = document.createElement("img");
   logo.src = lil;
@@ -114,7 +117,6 @@ function createMainContent() {
   document.querySelector(".categories-list").firstChild.click();
   createAddSection(main);
 }
-createMainContent();
 
 function createSection(ele) {
   let catSection = document.createElement("section");
@@ -399,10 +401,10 @@ function createProject(ele, projectSection, division) {
   });
 }
 
-function createAddSection(ele) {
+function createAddSection() {
   let add = document.createElement("Section");
   add.className = "add";
-  ele.append(add);
+  document.body.append(add);
   createAddSign(add);
 }
 function createAddSign(ele) {
@@ -1084,5 +1086,7 @@ function reloadAfterLogin() {
   document
     .querySelector("main")
     .parentNode.removeChild(document.querySelector("main"));
+  removeModal(document.querySelector(".add"));
   createMainContent();
+  createAddList();
 }
